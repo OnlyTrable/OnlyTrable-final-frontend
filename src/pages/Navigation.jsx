@@ -10,7 +10,7 @@ import OtherProfilePage from "./OtherProfilePage/OtherProfilePage.jsx";
 import InterestPage from "./InterestPage/InterestPage.jsx";
 import MessagesPage from "./MessagesPage/MessagesPage.jsx";
 import EditProfilePage from "./EditProfilePage/EditProfilePage.jsx";
-import MyPostsPage from "./MyPostsPage/MyPostPages.js";
+import MyPostsPage from "./MyPostsPage/MyPostsPage.jsx";
 import OtherPostsPage from "./OtherPostsPage/OtherPostsPage.jsx";
 
 const Navigation = () => {
