@@ -10,7 +10,7 @@ import OtherProfilePage from "./OtherProfilePage/OtherProfilePage.jsx";
 import InterestPage from "./InterestPage/InterestPage.jsx";
 import MessagesPage from "./MessagesPage/MessagesPage.jsx";
 import EditProfilePage from "./EditProfilePage/EditProfilePage.jsx";
-import MyPosts from "./MyPosts/MyPosts.jsx";
+import MyPostsPage from "./MyPostsPage/MyPosts.js";
 import OtherPostsPage from "./OtherPostsPage/OtherPostsPage.jsx";
 
 const Navigation = () => {
@@ -21,11 +21,11 @@ const Navigation = () => {
             <Route path="/reset" element={<ResetPage />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/otherprofile" element={<OtherProfilePage />} />
+            <Route path="/otherProfile" element={<OtherProfilePage />} />
             <Route path="/interest" element={<InterestPage />} />
             <Route path="/messages" element={<MessagesPage />} />
             <Route path="/editProfile" element={<EditProfilePage />} />
-            <Route path="/myPosts" element={<MyPosts />} />
+            <Route path="/myPosts" element={<MyPostsPage />} />
             <Route path="/posts" element={<OtherPostsPage />} />
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
