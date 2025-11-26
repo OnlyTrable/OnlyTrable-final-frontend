@@ -12,6 +12,9 @@ import MessagesPage from "./MessagesPage/MessagesPage.jsx";
 import EditProfilePage from "./EditProfilePage/EditProfilePage.jsx";
 import MyPostsPage from "./MyPostsPage/MyPostsPage.jsx";
 import OtherPostsPage from "./OtherPostsPage/OtherPostsPage.jsx";
+import PrivacyPage from "./PrivacyPage/PrivacyPage.jsx";
+import CookiesPage from "./CookiesPage/CookiesPage.jsx";
+import TermsPage from "./TermsPage/TermsPage.jsx";
 
 const Navigation = () => {
     return (
@@ -27,6 +30,9 @@ const Navigation = () => {
             <Route path="/editProfile" element={<EditProfilePage />} />
             <Route path="/myPosts" element={<MyPostsPage />} />
             <Route path="/posts" element={<OtherPostsPage />} />
+            <Route path="/cookies" element={<CookiesPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     )
