@@ -15,6 +15,7 @@ import OtherPostsPage from "./OtherPostsPage/OtherPostsPage.jsx";
 import PrivacyPage from "./PrivacyPage/PrivacyPage.jsx";
 import CookiesPage from "./CookiesPage/CookiesPage.jsx";
 import TermsPage from "./TermsPage/TermsPage.jsx";
+import ProtectedRoute from "../components/ProtectedRoute.jsx";
 
 const Navigation = () => {
     return (
@@ -22,17 +23,34 @@ const Navigation = () => {
             <Route path="/" element={<LoginPage />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/reset" element={<ResetPage />} />
-            <Route path="/main" element={<MainPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/otherProfile" element={<OtherProfilePage />} />
-            <Route path="/interest" element={<InterestPage />} />
-            <Route path="/messages" element={<MessagesPage />} />
-            <Route path="/editProfile" element={<EditProfilePage />} />
-            <Route path="/myPosts" element={<MyPostsPage />} />
-            <Route path="/posts" element={<OtherPostsPage />} />
             <Route path="/cookies" element={<CookiesPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
+
+            <Route path="/main" element={
+                <ProtectedRoute><MainPage /></ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+                <ProtectedRoute><ProfilePage /></ProtectedRoute>
+            } />
+            <Route path="/otherProfile" element={
+                <ProtectedRoute><OtherProfilePage /></ProtectedRoute>
+            } />
+            <Route path="/interest" element={
+                <ProtectedRoute><InterestPage /></ProtectedRoute>
+            } />
+            <Route path="/messages" element={
+                <ProtectedRoute><MessagesPage /></ProtectedRoute>
+            } />
+            <Route path="/editProfile" element={
+                <ProtectedRoute><EditProfilePage /></ProtectedRoute>
+            } />
+            <Route path="/myPosts" element={
+                <ProtectedRoute><MyPostsPage /></ProtectedRoute>
+            } />
+            <Route path="/posts" element={
+                <ProtectedRoute><OtherPostsPage /></ProtectedRoute>
+            } />
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     )
