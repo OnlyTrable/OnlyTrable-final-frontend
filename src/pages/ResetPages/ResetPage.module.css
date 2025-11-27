@@ -1,0 +1,103 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.container {
+  background: #fff;
+  width: 350px;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0 20px 0;
+  margin-top: 80px;
+  margin-bottom: 10px;
+}
+
+.lockIcon {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 12px;
+}
+
+.title {
+  color: #000000;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.description {
+  color: #737373;
+  font-family: Roboto;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  margin: 0 40px 16px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form button {
+  margin: 8px 0px 30px 0px;
+}
+
+.divider {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: calc(100% - 80px); /* 350px - 80px = 270px ширина контенту */
+  margin: 16px 0;
+}
+
+.line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #dbdbdb;
+}
+
+.orText {
+  color: #737373;
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 18px;
+}
+
+.createAccountLink {
+  color: #000;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 25px;
+}
+
+/* Стилі для нижнього контейнера "Back to login" */
+.backToLoginContainer {
+  width: 350px;
+  background-color: #fafafa;
+  border: 1px solid #dbdbdb;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.backToLoginLink {
+  color: #262626;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
