@@ -1,3 +1,15 @@
+.header {
+    background: #fff;
+    width: 100%;
+    border-bottom: 1px solid #dbdbdb; /* Щоб візуально об'єднати з контейнером форми, якщо потрібно */
+    align-items: start;
+}
+
+.headerLogo {
+    width: 97px;
+    height: auto;
+    margin: 1px auto 2px 44px;
+}
 .pageWrapper {
   display: flex;
   flex-direction: column;

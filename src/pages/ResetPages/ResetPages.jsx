@@ -4,13 +4,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "./ResetPage.module.css";
 import Input from "../../components/Input/Input.jsx";
-import Button from '../../components/Button/Button.jsx';
-import LockIcon from "../../assets/icons/trouble.svg"; 
+import Button from "../../components/Button/Button.jsx";
+import LockIcon from "../../assets/icons/trouble.svg";
+import logo from "../../assets/icons/logo.svg";
 
 const schema = yup.object().shape({
-  identifier: yup
-    .string()
-    .required("Email, phone, or username is required"),
+  identifier: yup.string().required("Email, phone, or username is required"),
 });
 
 const ResetPage = () => {
@@ -27,16 +26,20 @@ const ResetPage = () => {
   };
 
   return (
+    <div>
+        <header className={styles.header}>
+        <img src={logo} alt="ICHGRAM logo" className={styles.headerLogo} />
+      </header>
     <div className={styles.pageWrapper}>
+      
       <div className={styles.container}>
         <img src={LockIcon} alt="Lock icon" className={styles.lockIcon} />
-        
-        <h3 className={styles.title}>
-          Trouble logging in?
-        </h3>
+
+        <h3 className={styles.title}>Trouble logging in?</h3>
 
         <p className={styles.description}>
-          Enter your email, phone, or username and we'll send you a link to get back into your account.
+          Enter your email, phone, or username and we'll send you a link to get
+          back into your account.
         </p>
 
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -46,11 +49,8 @@ const ResetPage = () => {
             error={errors.identifier?.message}
             placeholder="Email or Username"
           />
-          
-          <Button 
-            text="Reset your password"
-            type="submit" 
-          />
+
+          <Button text="Reset your password" type="submit" />
         </form>
 
         {/* OR divider */}
@@ -72,6 +72,7 @@ const ResetPage = () => {
           Back to login
         </a>
       </div>
+    </div>
     </div>
   );
 };
