@@ -9,11 +9,11 @@
 .form {
     background: #fff;
     width: 350px;
-    height: 554px;
-    border: 1px solid #dbdbdb; /* Додано рамку */
-    display: flex; /* Додано для кращого внутрішнього вирівнювання */
-    flex-direction: column; /* Додано для кращого внутрішнього вирівнювання */
+    border: 1px solid #dbdbdb;
+    display: flex;
+    flex-direction: column;
     margin-top: 80px;
+    margin-bottom: 15px;
 }
 
 .logo {
@@ -29,13 +29,18 @@
     font-weight: 600;
     line-height: 20px;
     text-align: center;
-    margin: 0 40px 38px;
+    margin: 0 20px 38px;
 }
 
 .strings1{
     margin: 20px 0px 18px 0px;
 }
-.parag, .contactParag {
+.strings2{
+    margin: 0px 0px 27px 0px;
+}
+
+/* Об'єднані стилі для всього дрібного тексту */
+.and, .parag, .contactParag {
     color: #737373;
     font-family: Roboto;
     font-size: 12px;
@@ -43,12 +48,23 @@
     line-height: 16px;
     text-align: center;
 }
+
+/* Відступи для батьківського контейнера тексту (strings1 та strings2) */
 .parag {
     margin: 0px 40px;
 }
+
+/* Унікальний відступ для тексту в strings1 */
 .contactParag {
     margin-left: 40px;
 }
+
+/* Стилі для "and" (span) */
+.and {
+    margin: 0px 2px;
+    display: inline;
+}
+
 .learnMore{
     color: #00376B;
     font-family: Roboto;
@@ -56,27 +72,23 @@
     font-weight: 400;
     line-height: 16px;
     text-decoration: none;
+    margin-right: 4px; /* ВИПРАВЛЕНО: для пробілів між посиланнями */
 }
 
+/* Залишено лише contactRow для strings1 та strings3 */
 .contactRow {
     display: flex;
     flex-direction: row;
     align-items: center; 
     gap: 2px;
+    /* ВИПРАВЛЕНО: Центрування вмісту Log in */
+    justify-content: center;
 }
 
-.submitButton {
-    width: calc(100% - 80px); /* 100% мінус лівий та правий margin */
-    margin: 8px 0px 0px 40px;
-    padding: 7px 16px;
-    border: none;
-    border-radius: 8px;
-    background-color: #4cb5f9;
-    color: white;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s;
+/* Стилі для контейнера "Log in" */
+.strings3 {
+    width: 350px;
+    border: 1px solid #DBDBDB;
+    align-items: center;
+    padding: 20px 0; /* ВИПРАВЛЕНО: Додано padding, як на референсі */
 }
-
-.submitButton:hover { background-color: #1877f2; }
