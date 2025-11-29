@@ -1,0 +1,70 @@
+.sidebar {
+    width: 244px; /* Приблизна ширина бічної панелі */
+    height: 100vh;
+    border-right: 1px solid #dbdbdb; /* Роздільна лінія */
+    padding: 8px 12px;
+    background-color: #fff;
+    position: fixed; /* Фіксована позиція */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.logoContainer {
+    padding: 25px 0 40px 12px; /* Відступи зверху та знизу логотипу */
+}
+
+.logo {
+    width: 130px; /* Менший розмір логотипу, ніж на сторінках автентифікації */
+    height: auto;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 4px; /* Невеликий відступ між пунктами */
+    text-decoration: none;
+    color: #262626;
+    border-radius: 8px; /* Злегка заокруглені кути для hover-ефекту */
+    transition: background-color 0.1s;
+}
+
+.navItem:hover {
+    background-color: #f2f2f2;
+}
+
+.navIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+}
+
+.navLabel {
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Стилі для мініатюри профілю */
+.profileIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+    border-radius: 50%;
+    /* Додаємо тонку рамку, якщо це активний профіль або просто для стилю */
+    border: 1px solid #262626; 
+    overflow: hidden;
+}
+
+.profileImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

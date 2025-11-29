@@ -27,52 +27,51 @@ const ResetPage = () => {
 
   return (
     <div>
-        <header className={styles.header}>
+      <header className={styles.header}>
         <img src={logo} alt="ICHGRAM logo" className={styles.headerLogo} />
       </header>
-    <div className={styles.pageWrapper}>
-      
-      <div className={styles.container}>
-        <img src={LockIcon} alt="Lock icon" className={styles.lockIcon} />
+      <div className={styles.pageWrapper}>
+        <div className={styles.container}>
+          <img src={LockIcon} alt="Lock icon" className={styles.lockIcon} />
 
-        <h3 className={styles.title}>Trouble logging in?</h3>
+          <h3 className={styles.title}>Trouble logging in?</h3>
 
-        <p className={styles.description}>
-          Enter your email, phone, or username and we'll send you a link to get
-          back into your account.
-        </p>
+          <p className={styles.description}>
+            Enter your email, phone, or username and we'll send you a link to
+            get back into your account.
+          </p>
 
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            {...register("identifier")}
-            type="text"
-            error={errors.identifier?.message}
-            placeholder="Email or Username"
-          />
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              {...register("identifier")}
+              type="text"
+              error={errors.identifier?.message}
+              placeholder="Email or Username"
+            />
 
-          <Button text="Reset your password" type="submit" />
-        </form>
+            <Button text="Reset your password" type="submit" />
+          </form>
 
-        {/* OR divider */}
-        <div className={styles.divider}>
-          <div className={styles.line}></div>
-          <span className={styles.orText}>OR</span>
-          <div className={styles.line}></div>
+          {/* OR divider */}
+          <div className={styles.divider}>
+            <div className={styles.line}></div>
+            <span className={styles.orText}>OR</span>
+            <div className={styles.line}></div>
+          </div>
+
+          {/* Create new account link */}
+          <a href="/registration" className={styles.createAccountLink}>
+            Create new account
+          </a>
         </div>
 
-        {/* Create new account link */}
-        <a href="/registration" className={styles.createAccountLink}>
-          Create new account
-        </a>
+        {/* Back to login button (separate container) */}
+        <div className={styles.backToLoginContainer}>
+          <a href="/" className={styles.backToLoginLink}>
+            Back to login
+          </a>
+        </div>
       </div>
-
-      {/* Back to login button (separate container) */}
-      <div className={styles.backToLoginContainer}>
-        <a href="/" className={styles.backToLoginLink}>
-          Back to login
-        </a>
-      </div>
-    </div>
     </div>
   );
 };
