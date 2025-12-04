@@ -1,0 +1,58 @@
+/* Контейнер для центрування вмісту: Image + Text */
+.container {
+    max-width: 1000px; /* Достатня ширина для зображення та тексту */
+    width: 100%;
+    display: flex; /* Розміщуємо зображення та текст поруч */
+    flex-direction: row;
+    align-items: center; /* Вирівнюємо елементи по верхньому краю */
+    justify-content: center; /* Центруємо весь блок */
+    gap: 100px; /* Відступ між зображенням та текстом */
+    padding: 40px 0; /* Вертикальний padding */
+    box-sizing: border-box;
+}
+
+/* Контейнер для зображення (ліва частина) */
+.imageContainer {
+    flex-shrink: 0; 
+    width: 400px; 
+    height: 480px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Зміщення контейнера вгору, щоб відповідати референсу */
+    position: relative;
+    
+}
+
+.appImage {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); 
+}
+
+/* Контейнер для тексту (права частина) */
+.textContainer {
+    max-width: 450px;
+    text-align: left;
+}
+
+/* Стиль головного заголовка */
+.mainTitle {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 32px; 
+    font-weight: 800; 
+    color:  var(--main-text-color);
+    margin-bottom: 20px;
+    line-height: 36px;
+}
+
+/* Стиль опису */
+.description {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: var(--main-text-color);;
+    margin-bottom: 8px;
+    line-height: 22px;
+}

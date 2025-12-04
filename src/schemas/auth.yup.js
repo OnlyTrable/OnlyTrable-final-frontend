@@ -29,7 +29,7 @@ export const registerSchema = yup.object().shape({
 });
 
 export const loginSchema = yup.object().shape({
-  identifier: yup
+  loginId: yup
     .string()
     .required("Username or email is required"),
     

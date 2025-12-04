@@ -1,0 +1,26 @@
+.Sidebar {
+    margin: 0px auto 158px 0px;
+}
+.appContainer {
+    display: grid;
+    /* Визначаємо дві колонки: фіксовану для SideBar і гнучку для вмісту (1fr) */
+    grid-template-columns: 244px 1fr; /* 244px - типова ширина для SideBar Instagram */
+    min-height: 100vh; /* Висота на весь екран */
+}
+
+.mainLayout {
+    /* Цей контейнер (права колонка) містить центральний вміст та футер */
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Займаємо всю висоту сітки */
+}
+
+.contentArea {
+    /* Контейнер для центрального повідомлення 404. Потрібен, щоб контент 404 був по центру. */
+    flex-grow: 1; /* Ключова властивість: змушує його зайняти весь доступний простір, відштовхуючи футер */
+    display: flex;
+    justify-content: center; /* Центруємо вміст горизонтально */
+    align-items: center; /* Центруємо вміст вертикально */
+    padding: 20px;
+    box-sizing: border-box;
+}

@@ -5,9 +5,8 @@ import HomeIcon from '../../assets/icons/home.svg'; // +
 import SearchIcon from '../../assets/icons/search.svg'; // +
 import ExploreIcon from '../../assets/icons/explore.svg'; // +
 import MessagesIcon from '../../assets/icons/messages.svg'; // +
-import NotificationIcon from '../../assets/icons/notification.svg'; // +
+import NotificationIcon from '../../assets/icons/notificaton.svg'; 
 import ProfileIcon from '../../assets/icons/profile.svg'; // +
-
 import CreateIcon from '../../assets/icons/create.svg';
 
 // Дані для пунктів меню
@@ -21,9 +20,6 @@ const navItems = [
 ];
 
 const Sidebar = () => {
-  // Мініатюра профілю
-  const profileImage = '../../assets/images/profile-mini.png'; 
-
   return (
     <div className={styles.sidebar}>
       <div className={styles.logoContainer}>
@@ -40,7 +36,7 @@ const Sidebar = () => {
         
         <a href="/profile" className={styles.navItem}>
           <div className={styles.profileIcon}>
-            <img src={profileImage} alt="Profile" className={styles.profileImage} />
+            <img src={ProfileIcon} alt="Profile" className={styles.profileIcon} />
           </div>
           <span className={styles.navLabel}>Profile</span>
         </a>

@@ -90,5 +90,5 @@
     width: 350px;
     border: 1px solid #DBDBDB;
     align-items: center;
-    padding: 20px 0; /* ВИПРАВЛЕНО: Додано padding, як на референсі */
+    padding: 20px 0;
 }

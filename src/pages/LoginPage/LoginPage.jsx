@@ -1,26 +1,78 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom"; // ✅ Додаємо для перенаправлення
 import { loginSchema } from "../../schemas/auth.yup";
+import { useAuth } from '../../context/AuthContext';
 import styles from "./LoginPage.module.css";
 import Input from "../../components/Input/Input.jsx";
 import Button from "../../components/Button/Button.jsx";
 import logo from "../../assets/icons/logo.svg";
+import api from '../../api/axios.js'; // ✅ Імпорт інстансу Axios
+import useNotification from '../../hooks/useNotification'; // ✅ Імпорт хука
+import NotificationModal from '../../components/NotificationModal/NotificationModal.jsx'; // ✅ Імпорт компонента
 import phoneImages from "../../assets/images/ichgram.png";
 
+
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { notification, showNotification, closeNotification } = useNotification();
+  const { login, isAuthenticated } = useAuth(); // 👈 Отримуємо функцію login
+    
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Login submitted:", data);
-  };
+  // Функція для перенаправлення після закриття модального вікна
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/main', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+  // Асинхронна функція для відправки даних логіну
+  const onSubmit = async (data) => {
+    try {
+      // 1. Надсилаємо запит на бекенд
+      const response = await api.post('/auth/login', {
+        // Використовуємо 'loginId', як визначено у формі
+        loginId: data.loginId, 
+        password: data.password,
+      });
 
+      const { token } = response.data;
+
+      if (token) {
+        // 2. Зберігаємо токен та показуємо успіх
+        login(token); // ✅ ВИКОРИСТОВУЄМО login З КОНТЕКСТУ
+        showNotification("Login successful! Welcome to Ichgram.", "success");
+        console.log("Login successful! Welcome to Ichgram.", "success");
+      } else {
+         // Якщо немає токена, але запит 200/201 (дуже малоймовірно, але безпечно)
+         showNotification("Login succeeded, but failed to receive a token.", "error");
+      }
+    } catch (error) {
+      // 3. Обробка помилок
+      if (error.response) {
+        const status = error.response.status;
+        const message = error.response?.data?.message || "Invalid username or password.";
+        showNotification(message, "error");
+        // 401 Unauthorized або 400 Bad Request
+        if (status === 401 || status === 400) { 
+            showNotification(`Login failed: ${message}`, "error");
+        } else {
+            showNotification(`An unexpected server error occurred: ${message}`, "error");
+        }
+      } else {
+        // Помилки мережі
+        showNotification("Cannot connect to the server. Please check your network.", "error");
+      }
+    }
+  };
+  if (isAuthenticated) return null;
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.imageContainer}>
@@ -37,9 +89,9 @@ const LoginPage = () => {
           <img src={logo} alt="ICHGRAM logo" className={styles.logo} />
 
           <Input
-            {...register("identifier")}
+            {...register("loginId")}
             type="text"
-            error={errors.identifier?.message}
+            error={errors.loginId?.message}
             placeholder="Username, or email"
           />
           <Input
@@ -49,7 +101,11 @@ const LoginPage = () => {
             placeholder="Password"
           />
 
-          <Button text="Log In" type="submit" />
+          <Button 
+            text={isSubmitting ? "Logging In..." : "Log In"} 
+            type="submit"
+            disabled={isSubmitting} // ✅ Використовуємо для вимкнення кнопки
+          />
 
           {/* OR divider */}
           <div className={styles.divider}>
@@ -74,6 +130,14 @@ const LoginPage = () => {
           </p>
         </div>
       </div>
+      
+      {/* ✅ ДОДАЄМО МОДАЛЬНЕ ВІКНО */}
+      <NotificationModal
+        isOpen={notification.isOpen}
+        message={notification.message}
+        type={notification.type}
+        onClose={closeNotification} // Використовуємо функцію з перенаправленням
+      />
     </div>
   );
 };

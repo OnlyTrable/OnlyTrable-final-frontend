@@ -1,0 +1,46 @@
+.footer {
+  /* Головний контейнер футера */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центруємо вміст (посилання та копірайт) */
+  padding: 24px 0 61px 0;
+  box-sizing: border-box;
+  margin-bottom: 4px;
+}
+
+.navLinks {
+  /* Контейнер для навігаційних посилань */
+  display: flex;
+  justify-content: center;
+  list-style: none; /* Прибираємо маркери списку */
+  padding: 0;
+  margin-bottom: 20px; /* Відступ між посиланнями та копірайтом */
+}
+
+.linkItem {
+  /* Кожен елемент списку (посилання) */
+  margin: 0 8px; /* Горизонтальний відступ між посиланнями */
+}
+
+.link {
+  /* Стиль самого тексту посилання */
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  color: #737373; /* Сірий колір, схожий на референс */
+  text-decoration: none; /* Прибираємо підкреслення */
+  font-weight: 400;
+  /* Додамо hover-ефект для кращого UX, хоча на референсі його немає */
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.copyright {
+  /* Стиль для тексту авторських прав */
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  color: #a8a8a8; /* Світліший сірий для копірайту */
+  font-weight: 400;
+}

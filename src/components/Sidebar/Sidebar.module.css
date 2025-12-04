@@ -1,14 +1,13 @@
 .sidebar {
-    width: 244px; /* Приблизна ширина бічної панелі */
-    height: 100vh;
+    width: 244px;
     border-right: 1px solid #dbdbdb; /* Роздільна лінія */
     padding: 8px 12px;
     background-color: #fff;
-    position: fixed; /* Фіксована позиція */
     top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
+    max-height: calc(100% - 158px);
 }
 
 .logoContainer {
@@ -63,8 +62,3 @@
     overflow: hidden;
 }
 
-.profileImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
