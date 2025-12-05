@@ -17,16 +17,25 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                const rs = await api.post('/auth/refresh', {}, { withCredentials: true });
+                // ВАЖЛИВЕ ВИПРАВЛЕННЯ: Додано _doNotRetry: true, щоб уникнути нескінченного циклу Interceptor'а,
+                // коли первинна перевірка авторизації повертає 401.
+                const rs = await api.post(
+                    '/auth/refresh', 
+                    {}, 
+                    { 
+                        withCredentials: true,
+                        _doNotRetry: true // ЦЕЙ ПРАПОРЕЦЬ - КЛЮЧ ДО ВИРІШЕННЯ
+                    }
+                );
                 const { token: newAccessToken } = rs.data; 
                 setAccessToken(newAccessToken);
             } catch (error) {
                 // Якщо 401/403 (кука відсутня або недійсна), setAccessToken(null)
                 setAccessToken(null);
-                console.error("Error 401/403 setAccessToken will be cleared:", error);
+                console.error("Error during initial auth check:", error);
             } finally {
-                // В будь-якому випадку, ми завершили первинну перевірку
-                setIsLoading(false); // ✅ ТЕПЕР МОЖНА ПОЧИНАТИ РЕНДЕРИТИ
+                // Завжди знімаємо стан завантаження
+                setIsLoading(false); 
             }
         };
         // Запускаємо перевірку лише один раз

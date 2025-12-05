@@ -1,4 +1,4 @@
-import api from "./axios.js";
+import api from "./axios"; // ✅ ВИПРАВЛЕНО: Прибрано '.js'
 //import axios from "axios";
 
 let isRefreshing = false;
@@ -33,6 +33,15 @@ export const setupInterceptors = (getAccessToken, setAccessToken, navigate) => {
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
+      
+      // ====================================================================
+      // ✅ ФІКС: Якщо це первинний запит refresh, дозволяємо помилці пройти
+      // Це запобігає спробі Interceptor'а оновити токен, 
+      // який сам і є запитом на оновлення.
+      if (originalRequest._doNotRetry) {
+          return Promise.reject(error);
+      }
+      // ====================================================================
 
       if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
