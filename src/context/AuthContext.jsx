@@ -1,7 +1,7 @@
 // src/context/AuthContext.jsx 
 
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
-import api from '../api/axios.js';
+import api from '../api/axios'; // ВИПРАВЛЕНО: Прибрано '.js'
 
 const AuthContext = createContext(null);
 
@@ -14,33 +14,57 @@ export const AuthProvider = ({ children }) => {
     const isAuthenticated = !!accessToken;
     const getAccessToken = () => accessToken;
 
+    // ====================================================================
+    // 1. Первинна перевірка авторизації (через refresh токен)
+    // ====================================================================
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                // ВАЖЛИВЕ ВИПРАВЛЕННЯ: Додано _doNotRetry: true, щоб уникнути нескінченного циклу Interceptor'а,
-                // коли первинна перевірка авторизації повертає 401.
-                const rs = await api.post(
-                    '/auth/refresh', 
-                    {}, 
-                    { 
-                        withCredentials: true,
-                        _doNotRetry: true // ЦЕЙ ПРАПОРЕЦЬ - КЛЮЧ ДО ВИРІШЕННЯ
-                    }
-                );
+                // Встановлюємо прапорець _doNotRetry, щоб Interceptor не викликав refresh
+                const rs = await api.post('/auth/refresh', {}, { withCredentials: true, _doNotRetry: true });
                 const { token: newAccessToken } = rs.data; 
                 setAccessToken(newAccessToken);
             } catch (error) {
                 // Якщо 401/403 (кука відсутня або недійсна), setAccessToken(null)
                 setAccessToken(null);
-                console.error("Error during initial auth check:", error);
+                // console.error("Error 401/403 setAccessToken will be cleared:", error);
             } finally {
-                // Завжди знімаємо стан завантаження
+                // В будь-якому випадку, ми завершили первинну перевірку
                 setIsLoading(false); 
             }
         };
         // Запускаємо перевірку лише один раз
         checkAuthStatus();
     }, []);
+
+    useEffect(() => {
+        // Інтервал: 14 хвилин (840 000 мс).
+        const INTERVAL_MS = 14 * 60 * 1000; 
+        
+        const checkHealth = async () => {
+            try {
+                // Викликаємо наш спеціальний ендпоінт, щоб розбудити бекенд та DB
+                await api.get('/health/db'); 
+                // console.log("Health check successful. Server is awake.");
+            } catch (error) {
+                // console.error("Health check failed:", error.message);
+            }
+        };
+
+        // Запускаємо відразу
+        checkHealth(); 
+
+        // Налаштовуємо інтервал
+        const intervalId = setInterval(checkHealth, INTERVAL_MS);
+
+        // Очищаємо інтервал при демонтажі компонента
+        return () => {
+            clearInterval(intervalId);
+        };
+        
+    // Залежність [] гарантує, що це запускається лише один раз
+    }, []); 
+
     // Функція логіну, що зберігає токен у пам'яті
     const login = (token) => {
         setAccessToken(token); 
@@ -72,8 +96,6 @@ export const AuthProvider = ({ children }) => {
         isLoading,
     }), [accessToken, isAuthenticated, isLoading]);
 
-    // Немає useEffect для первинної перевірки, оскільки ми покладаємося на те, 
-    // що ProtectedRoute викличе захищений маршрут, а Interceptor спрацює.
     return (
         <AuthContext.Provider value={contextValue}>
             {children}
