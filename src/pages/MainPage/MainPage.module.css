@@ -1,131 +1,108 @@
-/* src/pages/MainPage.module.css */
-
-/* ================================================= */
-/* GRID / FLEX LAYOUT (Адаптивний макет) */
-/* ================================================= */
-
 .appContainer {
-    /* Контейнер-обгортка для всієї сторінки. Mobile First: Flex (стовпчик) */
-    min-height: 100vh; 
-    background-color: #fafafa; /* Фоновий колір */
-    display: flex; 
-    flex-direction: column;
+    display: grid; 
+    grid-template-columns: 244px 1fr; /* 1-а колонка для Sidebar, 2-а для решти */
+    min-height: 100vh;
+    background-color: #ffffff;
 }
 
 .mainLayout {
-    /* Права колонка (вміст сторінки). Використовує Flex-контейнер для притискання футера */
+    flex-grow: 1;
     display: flex;
-    flex-direction: column; /* Елементи розташовуються вертикально */
-    min-height: 100%; 
-    flex-grow: 1; /* Дозволяє зайняти весь простір на мобільному */
+    flex-direction: column;
+    min-height: 100%;
 }
 
 .contentArea {
-    /* Містить стрічку. flex-grow: 1 відштовхує футер вниз */
     flex-grow: 1; 
-    display: flex;
-    justify-content: center; /* Центруємо вміст стрічки горизонтально */
-    width: 100%;
-    box-sizing: border-box;
-    padding-top: 20px; /* Вертикальний відступ для мобільного */
+    padding-top: 20px;
+    display: flex; /* Додано для центрування контенту */
+    justify-content: center;
 }
-
-/* ================================================= */
-/* СТИЛІ СТРІЧКИ ТА ПОСТІВ */
-/* ================================================= */
 
 .feedContainer {
-    /* Контейнер для постів. Mobile: один стовпець */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Створюємо 2 колонки */
+    gap: 40px; /* Відстань між постами */
     width: 100%;
-    max-width: 630px; 
-    margin: 0 auto; 
-    padding: 0 10px; /* Горизонтальні відступи на мобільному */
-    display: flex; 
-    flex-direction: column;
+    max-width: 935px; /* Збільшуємо максимальну ширину для двох колонок */
+    margin: 0 auto;
+    padding: 0 16px;
+    box-sizing: border-box;
 }
 
+/* ================================================= */
 .postCard {
-    /* Картка поста */
     background-color: #fff;
-    border: 1px solid #dbdbdb;
     border-radius: 8px;
-    margin-bottom: 24px;
-    width: 100%; 
+    border-bottom: 1px solid #dbdbdb;
+    /* margin-bottom та max-width більше не потрібні, оскільки цим керує grid */
 }
 
-.postHeader, .headerInfo {
-    /* Заголовок поста (аватар + ім'я) */
+.postHeader {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 12px 16px;
+    padding: 12px 16px; 
+}
+
+.avatarContainer {
+    position: relative;
+    width: 32px; 
+    height: 32px; 
+    margin-right: 12px;
 }
 
 .profileLink {
-    display: flex; /* Для правильного вирівнювання */
-    align-items: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 2; 
+}
+
+.profilePic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatarFrame {
+    position: absolute;
+    top: -3px; 
+    left: -3px;
+    width: 38px; 
+    height: 38px;
+    border-radius: 50%;
+    padding: 3px;
+    box-sizing: border-box;
+    z-index: 1; 
 }
 
 .headerInfo {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 6px;
-    font-size: 14px;
-}
-
-.moreOptions {
-    margin-left: auto; /* Притискає іконку вправо */
-    cursor: pointer;
-}
-
-.avatarContainer {
-    /* Контейнер для аватара (фото + рамка) */
-    position: relative;
-    width: 36.2px;
-    height: 32.6px;
-    margin-right: 12px;
-    flex-shrink: 0; /* Забороняємо стискання контейнера */
-}
-
-.avatarFrame {
-    /* SVG рамка */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Робить рамку "прозорою" для кліків */
-}
-
-.profilePic {
-    /* Фотографія всередині рамки */
-    width: 27px;
-    height: 27px;
-    border-radius: 50%;
-    object-fit: cover;
-    position: absolute;
-    top: 5.6px;
-    left: 9px;
+    flex-grow: 1;
 }
 
 .username {
-    /* Ім'я користувача */
     font-weight: 600;
-    font-size: 14px;
-    color: #262626;
+    font-size: 12px;
+    color: #000000;
+    margin-right: 4px;
     text-decoration: none;
 }
 
-.username:hover {
-    text-decoration: underline;
-}
-
 .dot {
-    color: #8e8e8e;
+    color: #a8a8a8;
+    font-size: 14px;
+    margin: 0 4px;
 }
 
 .postTime {
-    color: #8e8e8e;
+    color: #a8a8a8;
+    font-size: 14px;
 }
 
 .followButton {
@@ -136,86 +113,94 @@
     font-size: 14px;
     cursor: pointer;
     padding: 0;
-}
-
-.postImage {
-    /* Зображення поста */
-    width: 100%;
-    height: 505.6px; /* Фіксована висота згідно з запитом */
-    display: block;
-    object-fit: cover; /* Щоб зображення не деформувалось */
-}
-
-.postActions {
-    /* Панель дій (лайки, коментарі, поділитися) */
-    display: flex;
-    padding: 8px 16px 6px;
-}
-
-.actionIcon {
-    /* Іконки дій */
-    width: 24px;
-    height: 24px;
-    color: #262626;
-    margin-right: 12px;
-    cursor: pointer;
+    margin-left: 8px;
     transition: opacity 0.1s;
 }
 
-.actionIcon:hover {
+.followButton:hover {
     opacity: 0.7;
 }
 
+.postImage {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    background-color: #eee;
+    /* Мінімізація CLS: встановлення фіксованого співвідношення сторін для зображень */
+    aspect-ratio: 4/5; 
+}
+
+.postActions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+}
+
+.actionIcon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-right: 16px;
+    font-size: 24px;
+    transition: transform 0.1s;
+    color: #262626; 
+}
+
+.actionIcon:hover {
+    transform: scale(1.05);
+}
+
 .postDetails {
-    /* Деталі (лайки, опис, час) */
-    padding: 0 16px;
-    font-size: 14px;
-    color: #262626;
+    padding: 0 16px 38px; 
 }
 
 .likes {
     font-weight: 600;
-    margin-bottom: 8px;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #262626;
 }
 
 .caption {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    color: #262626;
+    line-height: 1.2;
+    word-break: break-word;
     margin-bottom: 4px;
 }
 
 .captionUsername {
-    text-decoration: none;
     font-weight: 600;
-    margin-right: 4px;
-    color: #262626;
-}
-
-.captionUsername:hover {
-    text-decoration: underline;
+    margin-right: 5px;
+    text-decoration: none;
+    color: #000000;
 }
 
 .commentPreview {
-    margin-bottom: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
     color: #262626;
+    margin-bottom: 4px;
 }
 
 .moreComment {
-    color: #8e8e8e;
-    cursor: pointer;
+    color: #a8a8a8;
+    font-weight: 400;
 }
 
 .viewAllComments {
-    color: #8e8e8e;
+    color: #a8a8a8;
+    font-size: 14px;
     text-decoration: none;
     display: block;
     margin-bottom: 8px;
 }
-.commentSeparator {
-    border-bottom: 1px solid #dbdbdb;
-}
-
-/* ================================================= */
-/* БЛОК "End of Feed" */
-/* ================================================= */
 
 .endOfFeedBlock {
     display: flex;
@@ -223,63 +208,23 @@
     align-items: center;
     text-align: center;
     padding: 40px 20px 80px;
-    color: #8e8e8e;
-    max-width: 630px;
-    width: 100%;
-    margin: 60px auto 0; /* Верхній відступ + автоматичне центрування по горизонталі */
+    color: #737373;
 }
 
 .endIcon {
-    width: 48px;
-    height: 48px;
-    color: #dbdbdb;
-    margin-bottom: 12px;
+    width: 83px;
+    height: 83px;
+    margin-bottom: 11px;
 }
 
 .endTitle {
-    font-size: 22px;
-    font-weight: 300;
+    font-size: 18px;
+    font-weight: 600;
     margin-bottom: 8px;
+    color: #262626;
 }
 
 .endText {
     font-size: 14px;
-}
-
-
-/* ================================================= */
-/* Адаптивність (Десктоп: GRID LAYOUT) */
-/* ================================================= */
-
-@media (min-width: 1000px) {
-    .appContainer {
-        display: grid;
-        /* Sidebar (244px) + Main Content (1fr) */
-        grid-template-columns: 244px 1fr; 
-    }
-    
-    .mainLayout {
-        /* Забезпечуємо повну висоту колонки Grid для коректного Flex притискання Footer */
-        min-height: 100vh; 
-    }
-
-    .contentArea {
-        /* На десктопі контент стрічки отримує більший вертикальний відступ */
-        padding-top: 40px; 
-    }
-
-    .feedContainer {
-        /* На десктопі: 2 колонки для контенту */
-        display: grid;
-        grid-template-columns: 1fr 1fr; 
-        gap: 20px; /* Простір між постами */
-        
-        max-width: 850px; /* Збільшуємо загальну ширину для 2-х колонок */
-        margin: 0 auto; /* Центруємо сітку постів в contentArea */
-        padding: 0 40px; 
-    }
-
-    .postCard {
-        margin-bottom: 0; /* Прибираємо вертикальний марджин у сітці */
-    }
+    font-weight: 400;
 }
