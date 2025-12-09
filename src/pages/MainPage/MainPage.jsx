@@ -6,18 +6,15 @@ import sashaAvatar from "../../assets/avatars/sashaa.jpg";
 import endIcon from "../../assets/icons/confirm.svg";
 
 const MainPage = () => {
-  // Тимчасовий заглушка для вмісту стрічки, щоб показати роботу прокрутки та футера
 
   const mockFeedContent = (
     <>
       <div className={styles.feedContainer}>
-        {/* Імітація 10 постів для створення довгої сторінки */}
         {[...Array(10)].map((_, index) => (
           <div key={index} className={styles.postCard}>
             <div className={styles.postHeader}>
               <div className={styles.avatarContainer}>
                 <a href="/profile" className={styles.profileLink}>
-                  {/* Заміна локального аватара на плейсхолдер URL */}
                   <img
                     src={sashaAvatar} // Тут використовується імпортована змінна
                     alt="profile avatar"
