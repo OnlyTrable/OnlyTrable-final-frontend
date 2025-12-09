@@ -3,11 +3,13 @@
     border-right: 1px solid #dbdbdb; /* Роздільна лінія */
     padding: 8px 12px;
     background-color: #fff;
+    position: sticky; /* Робимо сайдбар "липким" */
     top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
-    max-height: calc(100% - 158px);
+    height: calc(100vh - 158px); /* Фіксуємо висоту сайдбару, щоб бордер закінчувався вище футера */
+    /* max-height: calc(100% - 158px); -- видалено, оскільки height тепер фіксований */
 }
 
 .logoContainer {
@@ -19,9 +21,12 @@
     height: auto;
 }
 
-.nav {
+/* Навігація всередині сайдбару */
+.nav { /* Єдине визначення для .nav */
     display: flex;
     flex-direction: column;
+    flex-grow: 1; /* Займає весь доступний простір */
+    overflow-y: auto; /* Дозволяє прокручування, якщо контент перевищує висоту */
 }
 
 .navItem {
@@ -61,4 +66,3 @@
     border: 1px solid #262626; 
     overflow: hidden;
 }
-

@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
             } catch (error) {
                 // Якщо 401/403 (кука відсутня або недійсна), setAccessToken(null)
                 setAccessToken(null);
-                // console.error("Error 401/403 setAccessToken will be cleared:", error);
+                console.error("Error 401/403 setAccessToken will be cleared:", error);
             } finally {
                 // В будь-якому випадку, ми завершили первинну перевірку
                 setIsLoading(false); 
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
                 await api.get('/health/db'); 
                 // console.log("Health check successful. Server is awake.");
             } catch (error) {
-                // console.error("Health check failed:", error.message);
+                console.error("Health check failed:", error.message);
             }
         };
 
