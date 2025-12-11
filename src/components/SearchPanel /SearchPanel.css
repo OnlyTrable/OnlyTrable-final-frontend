@@ -1,0 +1,91 @@
+/* Основний контейнер */
+.search-panel {
+    width: 100%; /* Займає всю ширину батьківського елемента */
+    height: 100%; /* Займає всю висоту батьківського елемента */
+    background-color: white;
+    padding: 20px 24px;
+    font-family: Roboto, sans-serif;
+    color: #262626;
+    overflow-y: auto;
+}
+
+/* Заголовок "Search" */
+.search-panel-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Обгортка для поля вводу */
+.search-input-wrapper {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dbdbdb;
+}
+
+/* Стилі для вашого компонента Input, якщо він не має власних */
+.search-input-wrapper input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #dbdbdb;
+    background-color: #efefef;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-input-wrapper input:focus {
+    border-color: #a8a8a8;
+}
+
+/* Контейнер для результатів */
+.search-results {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Елемент результату пошуку */
+.search-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 0;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.search-item-link {
+    text-decoration: none;
+}
+
+.search-item-link:hover .search-item {
+    background-color: #fafafa;
+}
+
+/* Аватар користувача */
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+/* Ім'я користувача - жирний шрифт */
+.username {
+    margin: 0;
+    color: #262626;
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 4px;
+}
+
+/* Повідомлення про відсутність результатів */
+.no-results {
+    text-align: center;
+    color: #8e8e8e;
+    padding: 20px;
+}

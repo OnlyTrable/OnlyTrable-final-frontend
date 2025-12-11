@@ -9,7 +9,6 @@
     display: flex;
     flex-direction: column;
     height: calc(100vh - 158px); /* Фіксуємо висоту сайдбару, щоб бордер закінчувався вище футера */
-    /* max-height: calc(100% - 158px); -- видалено, оскільки height тепер фіксований */
 }
 
 .logoContainer {
@@ -44,6 +43,16 @@
     background-color: #f2f2f2;
 }
 
+/* Стилі для активного пункту меню */
+.activeNavItem .navIcon {
+    /* CSS-фільтр більше не потрібен, оскільки ми міняємо саме зображення */
+}
+
+.activeNavItem .navLabel {
+    font-weight: 600; /* Робимо текст жирним */
+}
+
+/* За замовчуванням іконки будуть сірими */
 .navIcon {
     width: 24px;
     height: 24px;

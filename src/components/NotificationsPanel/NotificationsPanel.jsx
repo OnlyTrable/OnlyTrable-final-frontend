@@ -4,21 +4,29 @@ import './NotificationsPanel.css'; // Імпорт стилів
 /**
  * Окремий компонент для відображення одного сповіщення.
  */
-const NotificationItem = ({ avatarSrc, username, actionText, timeAgo, thumbnailSrc }) => (
-    <div className="notification-item">
-        {/* Аватар користувача */}
-        <img className="user-avatar" src={avatarSrc} alt={`${username}'s avatar`} />
+const NotificationItem = ({ avatarSrc, username, actionText, timeAgo, thumbnailSrc }) => {
+    // Розділяємо текст дії на перше слово та решту
+    const actionWords = actionText.split(' ');
+    const firstActionWord = actionWords.shift(); // Забираємо перше слово
+    const restOfActionText = actionWords.join(' '); // З'єднуємо решту слів
 
-        {/* Зміст сповіщення */}
-        <div className="notification-content">
-            <span className="username">{username}</span> {actionText}
-            <span className="time-ago">{timeAgo}</span>
+    return (
+        <div className="notification-item">
+            {/* Аватар користувача */}
+            <img className="user-avatar" src={avatarSrc} alt={`${username}'s avatar`} />
+
+            {/* Зміст сповіщення */}
+            <div className="notification-content">
+                <p className="notification-text">
+                    <span className="username">{username} </span> {firstActionWord} <br/>{restOfActionText} <span className="time-ago">{timeAgo}</span>
+                </p>
+            </div>
+
+            {/* Мініатюра фото */}
+            <img className="photo-thumbnail" src={thumbnailSrc} alt="Your photo thumbnail" />
         </div>
-
-        {/* Мініатюра фото */}
-        <img className="photo-thumbnail" src={thumbnailSrc} alt="Your photo thumbnail" />
-    </div>
-);
+    );
+};
 
 /**
  * Основний компонент "Панель сповіщень".

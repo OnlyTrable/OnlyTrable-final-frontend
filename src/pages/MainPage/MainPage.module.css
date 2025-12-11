@@ -8,15 +8,44 @@
 .mainLayout {
     flex-grow: 1;
     display: flex;
+    position: relative; /* Необхідно для абсолютного позиціонування дочірніх елементів */
     flex-direction: column;
     min-height: 100%;
 }
 
 .contentArea {
     flex-grow: 1; 
-    padding-top: 20px;
+    padding: 20px 0;
     display: flex; /* Додано для центрування контенту */
     justify-content: center;
+    width: 100%;
+}
+
+/* Нові стилі для оверлея сповіщень */
+.searchOverlay,
+.notificationsOverlay  {
+    position: absolute;
+    top: 0;
+    left: 0; /* Розміщуємо впритул до лівого краю mainLayout (тобто, до сайдбару) */
+    /* Обмежуємо висоту, щоб панель не перекривала футер (висота футера ~158px) */
+    height: calc(100% - 158px);
+    z-index: 100; /* Поверх усього контенту */
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out; /* Анімація появи */
+    /* Переносимо розмір та заокруглення сюди */
+    width: 397px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    overflow: hidden; /* Ховаємо все, що виходить за межі заокруглених кутів */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 
 .feedContainer {
@@ -227,4 +256,16 @@
 .endText {
     font-size: 14px;
     font-weight: 400;
+}
+
+/* Стиль для затемнення фону */
+.backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;    
+    /* Обмежуємо висоту, щоб затемнення не перекривало футер */
+    height: calc(100% - 158px);
+    background-color: rgba(0, 0, 0, 0.5); /* Напівпрозорий чорний фон */
+    z-index: 50; /* Нижче панелі, але вище контенту */
 }

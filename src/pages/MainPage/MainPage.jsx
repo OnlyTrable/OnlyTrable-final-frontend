@@ -1,12 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
+import NotificationsPanel from "../../components/NotificationsPanel/NotificationsPanel.jsx";
+import SearchPanel from "../../components/SearchPanel /SearchPanel.jsx";
 import styles from "./MainPage.module.css";
 import sashaAvatar from "../../assets/avatars/sashaa.jpg";
 import endIcon from "../../assets/icons/confirm.svg";
 
-const MainPage = () => {
+// Мокові дані для сповіщень
+const mockNotifications = [
+  {
+    avatarSrc: "https://i.pravatar.cc/150?img=1",
+    username: "john.doe",
+    actionText: "liked your photo.",
+    timeAgo: "1h",
+    thumbnailSrc: "https://picsum.photos/id/101/50/50",
+  },
+  {
+    avatarSrc: "https://i.pravatar.cc/150?img=2",
+    username: "jane.smith",
+    actionText: "started following you.",
+    timeAgo: "3h",
+    thumbnailSrc: "https://picsum.photos/id/102/50/50",
+  },
+];
 
+// Мокові дані для панелі пошуку
+const mockSearchItems = [
+  { id: '1', avatarSrc: 'https://i.pravatar.cc/150?img=5', username: 'user_one' },
+  { id: '2', avatarSrc: 'https://i.pravatar.cc/150?img=6', username: 'user_two' },
+  { id: '3', avatarSrc: 'https://i.pravatar.cc/150?img=7', username: 'another_user' },
+  { id: '4', avatarSrc: sashaAvatar, username: 'sashaa' },
+];
+
+const MainPage = () => {
+  // Стан для контролю видимості панелі сповіщень.
+  // За замовчуванням панель закрита.
+  const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] = useState(false);
+  const [isSearchPanelOpen, setIsSearchPanelOpen] = useState(false);
+
+  const toggleNotificationsPanel = () => {
+    setIsNotificationsPanelOpen(prev => !prev);
+    // Якщо відкриваємо панель сповіщень, закриваємо панель пошуку
+    if (!isNotificationsPanelOpen) { // `!isNotificationsPanelOpen` бо стан оновиться асинхронно
+      setIsSearchPanelOpen(false);
+    }
+  };
+
+  const toggleSearchPanel = () => {
+    setIsSearchPanelOpen(prev => !prev);
+    // Якщо відкриваємо панель пошуку, закриваємо панель сповіщень
+    if (!isSearchPanelOpen) {
+      setIsNotificationsPanelOpen(false);
+    }
+  };
   const mockFeedContent = (
     <>
       <div className={styles.feedContainer}>
@@ -136,20 +183,49 @@ const MainPage = () => {
       </div>
     </>
   );
-
+  
   return (
     // 1. appContainer: Grid на десктопі (Sidebar + MainLayout)
     <div className={styles.appContainer}>
-      {/* Sidebar: Залишається у першій колонці Grid */}
-      <Sidebar />
+      {/* Sidebar: Залишається у першій колонці Grid. Передаємо функцію для відкриття/закриття сповіщень */}
+      <Sidebar
+        onNotificationClick={toggleNotificationsPanel}
+        isNotificationsPanelOpen={isNotificationsPanelOpen}
+        onSearchClick={toggleSearchPanel}
+        isSearchPanelOpen={isSearchPanelOpen}
+        activePage="Home"
+      />
 
       {/* 2. mainLayout: Права колонка Grid. Використовує Flex-контейнер для притискання футера */}
       <div className={styles.mainLayout}>
         {/* 3. contentArea: Займе весь простір, відштовхуючи Footer. Тут знаходиться сама стрічка */}
-        <div className={styles.contentArea}>{mockFeedContent}</div>
-
+        <main className={styles.contentArea}>{mockFeedContent}</main>
         {/* Footer: Притиснутий до низу mainLayout. На мобільному він буде після контенту */}
         <Footer />
+
+        {/* Оверлей для панелі пошуку */}
+        {isSearchPanelOpen && (
+          <>
+            {/* Затемнення фону (невидиме, для кліку) */}
+            <div className={styles.backdrop} onClick={() => setIsSearchPanelOpen(false)}></div>
+            {/* Сама панель пошуку */}
+            <div className={styles.searchOverlay}>
+              <SearchPanel items={mockSearchItems} />
+            </div>
+          </>
+        )}
+
+        {/* Оверлей для панелі сповіщень */}
+        {isNotificationsPanelOpen && (
+          <>
+            {/* Затемнення фону */}
+            <div className={styles.backdrop} onClick={() => setIsNotificationsPanelOpen(false)}></div>
+            {/* Сама панель сповіщень */}
+            <div className={styles.notificationsOverlay}>
+              <NotificationsPanel notifications={mockNotifications} />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
