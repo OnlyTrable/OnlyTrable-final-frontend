@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import NotificationsPanel from "../../components/NotificationsPanel/NotificationsPanel.jsx";
 import SearchPanel from "../../components/SearchPanel /SearchPanel.jsx";
 import ExplorePanel from '../../components/ExplorePanel/ExplorePanel.jsx';
-import MessagesPanel from '../../components/MessagesPanel/MessagesPanel.jsx'; // 👈 Імпортуємо панель повідомлень
+import MessagesPanel from '../../components/MessagesPanel/MessagesPanel.jsx';
+import EditProfilePanel from '../../components/EditProfilePanel/EditProfilePanel.jsx'; // 👈 Імпортуємо панель профілю
 
 import styles from "./MainPage.module.css";
 import sashaAvatar from "../../assets/avatars/sashaa.jpg";
@@ -37,12 +39,14 @@ const mockSearchItems = [
 ];
 
 const MainPage = () => {
+  const { user } = useAuth();
   // Стан для контролю видимості панелі сповіщень.
   // За замовчуванням панель закрита.
   const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] = useState(false);
   const [isSearchPanelOpen, setIsSearchPanelOpen] = useState(false);
   const [isExplorePanelOpen, setIsExplorePanelOpen] = useState(false);
   const [isMessagesPanelOpen, setIsMessagesPanelOpen] = useState(false);
+  const [isProfilePanelOpen, setIsProfilePanelOpen] = useState(false);
 
   const toggleNotificationsPanel = () => {
     const opening = !isNotificationsPanelOpen;
@@ -52,6 +56,7 @@ const MainPage = () => {
       setIsSearchPanelOpen(false);
       setIsExplorePanelOpen(false);
       setIsMessagesPanelOpen(false);
+      setIsProfilePanelOpen(false);
     }
   };
 
@@ -63,6 +68,7 @@ const MainPage = () => {
       setIsNotificationsPanelOpen(false);
       setIsExplorePanelOpen(false);
       setIsMessagesPanelOpen(false);
+      setIsProfilePanelOpen(false);
     }
   };
 
@@ -74,6 +80,7 @@ const MainPage = () => {
       setIsNotificationsPanelOpen(false);
       setIsSearchPanelOpen(false);
       setIsMessagesPanelOpen(false);
+      setIsProfilePanelOpen(false);
     }
   };
 
@@ -85,11 +92,27 @@ const MainPage = () => {
       setIsNotificationsPanelOpen(false);
       setIsSearchPanelOpen(false);
       setIsExplorePanelOpen(false);
+      setIsProfilePanelOpen(false);
+    }
+  };
+
+  const toggleProfilePanel = () => {
+    const opening = !isProfilePanelOpen;
+    setIsProfilePanelOpen(opening);
+    // Закриваємо інші панелі, якщо відкриваємо цю
+    if (opening) {
+        setIsNotificationsPanelOpen(false);
+        setIsSearchPanelOpen(false);
+        setIsExplorePanelOpen(false);
+        setIsMessagesPanelOpen(false);
     }
   };
 
   // Визначаємо, яка сторінка активна
-  const activePage = isMessagesPanelOpen ? 'Messages' : isExplorePanelOpen ? 'Explore' : 'Home';
+  const activePage = isProfilePanelOpen ? 'Profile' :
+                     isMessagesPanelOpen ? 'Messages' : 
+                     isExplorePanelOpen ? 'Explore' : 
+                     'Home';
 
   const mockFeedContent = (
     <>
@@ -234,6 +257,8 @@ const MainPage = () => {
         isExplorePanelOpen={isExplorePanelOpen}
         onMessagesClick={toggleMessagesPanel}
         isMessagesPanelOpen={isMessagesPanelOpen}
+        onProfileClick={toggleProfilePanel}
+        isProfilePanelOpen={isProfilePanelOpen}
         activePage={activePage}
       />
 
@@ -243,6 +268,7 @@ const MainPage = () => {
         <main className={styles.contentArea}>
           {/* Умовний рендеринг панелей */}
           {
+            isProfilePanelOpen ? <EditProfilePanel user={user} /> :
             isMessagesPanelOpen ? <MessagesPanel /> :
             isExplorePanelOpen ? <ExplorePanel /> :
             mockFeedContent

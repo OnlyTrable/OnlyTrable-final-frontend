@@ -43,13 +43,13 @@ const LoginPage = () => {
         password: data.password,
       });
 
-      const { token } = response.data;
+      // 👇 Деструктуризуємо і токен, і користувача з відповіді
+      const { token, user } = response.data;
 
-      if (token) {
+      if (token && user) {
         // 2. Зберігаємо токен та показуємо успіх
-        login(token); // ✅ ВИКОРИСТОВУЄМО login З КОНТЕКСТУ
+        login(token, user); // ✅ Передаємо обидва значення в контекст
         showNotification("Login successful! Welcome to Ichgram.", "success");
-        console.log("Login successful! Welcome to Ichgram.", "success");
       } else {
          // Якщо немає токена, але запит 200/201 (дуже малоймовірно, але безпечно)
          showNotification("Login succeeded, but failed to receive a token.", "error");

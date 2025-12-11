@@ -45,7 +45,8 @@
 
 /* Стилі для активного пункту меню */
 .activeNavItem .navIcon {
-    /* CSS-фільтр більше не потрібен, оскільки ми міняємо саме зображення */
+    /* Контур стає білим, коли іконка заповнена чорним */
+    stroke: white; 
 }
 
 .activeNavItem .navLabel {
@@ -57,6 +58,8 @@
   width: 24px;
   height: 24px;
   margin-right: 16px;
+  stroke-width: 2;
+  stroke: black; /* Колір контуру за замовчуванням */
 }
 
 .navLabel {

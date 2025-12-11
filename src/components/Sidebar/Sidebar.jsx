@@ -23,7 +23,7 @@ const navItems = [
   { Icon: SquarePlus, label: 'Create', path: '/create' },
 ];
 
-const Sidebar = ({ onNotificationClick, isNotificationsPanelOpen, onSearchClick, isSearchPanelOpen, onExploreClick, isExplorePanelOpen, onMessagesClick, isMessagesPanelOpen, activePage }) => {
+const Sidebar = ({ onNotificationClick, isNotificationsPanelOpen, onSearchClick, isSearchPanelOpen, onExploreClick, isExplorePanelOpen, onMessagesClick, isMessagesPanelOpen, onProfileClick, isProfilePanelOpen, activePage }) => {
   // 👈 Отримуємо функцію logout з контексту
   const { logout } = useAuth();
 
@@ -41,9 +41,9 @@ const Sidebar = ({ onNotificationClick, isNotificationsPanelOpen, onSearchClick,
           const isSearchItemActive = item.label === 'Search' && isSearchPanelOpen;
           const isExploreItemActive = item.label === 'Explore' && isExplorePanelOpen;
           const isMessagesItemActive = item.label === 'Messages' && isMessagesPanelOpen;
-          const isPageItemActive = item.label === activePage && !isNotificationsPanelOpen && !isSearchPanelOpen && !isExplorePanelOpen && !isMessagesPanelOpen;
+          const isPageItemActive = item.label === activePage && !isNotificationsPanelOpen && !isSearchPanelOpen && !isExploreItemActive && !isMessagesItemActive && !isProfilePanelOpen;
 
-          const isActive = isNotificationItemActive || isSearchItemActive || isExploreItemActive || isMessagesItemActive || isPageItemActive;
+          const isActive = isNotificationItemActive || isSearchItemActive || isExploreItemActive || isMessagesItemActive || isPageItemActive ;
 
           const itemClasses = `${styles.navItem} ${isActive ? styles.activeNavItem : ''}`;
 
@@ -68,14 +68,26 @@ const Sidebar = ({ onNotificationClick, isNotificationsPanelOpen, onSearchClick,
                 }
               }}
             >
-              <Icon className={styles.navIcon} fill={isActive ? 'black' : 'none'} />
+              {/* 👇 Керуємо заливкою та кольором контуру залежно від стану isActive */}
+              <Icon 
+                className={styles.navIcon} 
+                fill={isActive ? 'black' : 'none'} 
+              />
               <span className={styles.navLabel}>{label}</span>
             </a>
           );
         })}
         
-        <a href="/profile" className={styles.navItem}>
-          <UserCircle className={styles.navIcon} />
+        <a 
+          href="#" 
+          className={`${styles.navItem} ${isProfilePanelOpen ? styles.activeNavItem : ''}`}
+          onClick={(e) => {
+            e.preventDefault();
+            onProfileClick();
+          }}
+        >
+          {/* Іконка профілю */}
+          <UserCircle className={styles.navIcon} fill={isProfilePanelOpen ? 'black' : 'none'} />
           <span className={styles.navLabel}>Profile</span>
         </a>
 

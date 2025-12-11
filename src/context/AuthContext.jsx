@@ -10,6 +10,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
     // Access Token зберігається у стані (пам'яті)
     const [accessToken, setAccessToken] = useState(null);
+    const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const isAuthenticated = !!accessToken;
     const getAccessToken = () => accessToken;
@@ -22,8 +23,9 @@ export const AuthProvider = ({ children }) => {
             try {
                 // Встановлюємо прапорець _doNotRetry, щоб Interceptor не викликав refresh
                 const rs = await api.post('/auth/refresh', {}, { withCredentials: true, _doNotRetry: true });
-                const { token: newAccessToken } = rs.data; 
+                const { token: newAccessToken, user: userData } = rs.data; 
                 setAccessToken(newAccessToken);
+                setUser(userData);
             } catch (error) {
                 // Якщо 401/403 (кука відсутня або недійсна), setAccessToken(null)
                 setAccessToken(null);
@@ -66,8 +68,9 @@ export const AuthProvider = ({ children }) => {
     }, []); 
 
     // Функція логіну, що зберігає токен у пам'яті
-    const login = (token) => {
+    const login = (token, userData) => {
         setAccessToken(token); 
+        setUser(userData);
     };
 
     // Функція виходу
@@ -81,6 +84,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             // 2. Очищаємо Access Token у пам'яті
             setAccessToken(null);
+            setUser(null);
         }
     };
 
@@ -88,13 +92,15 @@ export const AuthProvider = ({ children }) => {
     // для оптимізації та стабільності
     const contextValue = useMemo(() => ({
         accessToken, 
+        user,
         isAuthenticated, 
         login, 
         logout, 
         setAccessToken, // ✅ Обов'язково для запису токена Interceptor'ом
+        setUser,
         getAccessToken, // ✅ Обов'язково для читання токена Interceptor'ом
         isLoading,
-    }), [accessToken, isAuthenticated, isLoading]);
+    }), [accessToken, user, isAuthenticated, isLoading]);
 
     return (
         <AuthContext.Provider value={contextValue}>
