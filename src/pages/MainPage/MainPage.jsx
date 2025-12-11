@@ -3,6 +3,9 @@ import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import NotificationsPanel from "../../components/NotificationsPanel/NotificationsPanel.jsx";
 import SearchPanel from "../../components/SearchPanel /SearchPanel.jsx";
+import ExplorePanel from '../../components/ExplorePanel/ExplorePanel.jsx';
+import MessagesPanel from '../../components/MessagesPanel/MessagesPanel.jsx'; // 👈 Імпортуємо панель повідомлень
+
 import styles from "./MainPage.module.css";
 import sashaAvatar from "../../assets/avatars/sashaa.jpg";
 import endIcon from "../../assets/icons/confirm.svg";
@@ -38,22 +41,56 @@ const MainPage = () => {
   // За замовчуванням панель закрита.
   const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] = useState(false);
   const [isSearchPanelOpen, setIsSearchPanelOpen] = useState(false);
+  const [isExplorePanelOpen, setIsExplorePanelOpen] = useState(false);
+  const [isMessagesPanelOpen, setIsMessagesPanelOpen] = useState(false);
 
   const toggleNotificationsPanel = () => {
-    setIsNotificationsPanelOpen(prev => !prev);
-    // Якщо відкриваємо панель сповіщень, закриваємо панель пошуку
-    if (!isNotificationsPanelOpen) { // `!isNotificationsPanelOpen` бо стан оновиться асинхронно
+    const opening = !isNotificationsPanelOpen;
+    setIsNotificationsPanelOpen(opening);
+    // Закриваємо інші панелі, якщо відкриваємо цю
+    if (opening) {
       setIsSearchPanelOpen(false);
+      setIsExplorePanelOpen(false);
+      setIsMessagesPanelOpen(false);
     }
   };
 
   const toggleSearchPanel = () => {
-    setIsSearchPanelOpen(prev => !prev);
-    // Якщо відкриваємо панель пошуку, закриваємо панель сповіщень
-    if (!isSearchPanelOpen) {
+    const opening = !isSearchPanelOpen;
+    setIsSearchPanelOpen(opening);
+    // Закриваємо інші панелі, якщо відкриваємо цю
+    if (opening) {
       setIsNotificationsPanelOpen(false);
+      setIsExplorePanelOpen(false);
+      setIsMessagesPanelOpen(false);
     }
   };
+
+  const toggleExplorePanel = () => {
+    const opening = !isExplorePanelOpen;
+    setIsExplorePanelOpen(opening);
+    // Закриваємо інші панелі, якщо відкриваємо цю
+    if (opening) {
+      setIsNotificationsPanelOpen(false);
+      setIsSearchPanelOpen(false);
+      setIsMessagesPanelOpen(false);
+    }
+  };
+
+  const toggleMessagesPanel = () => {
+    const opening = !isMessagesPanelOpen;
+    setIsMessagesPanelOpen(opening);
+    // Закриваємо інші панелі, якщо відкриваємо цю
+    if (opening) {
+      setIsNotificationsPanelOpen(false);
+      setIsSearchPanelOpen(false);
+      setIsExplorePanelOpen(false);
+    }
+  };
+
+  // Визначаємо, яка сторінка активна
+  const activePage = isMessagesPanelOpen ? 'Messages' : isExplorePanelOpen ? 'Explore' : 'Home';
+
   const mockFeedContent = (
     <>
       <div className={styles.feedContainer}>
@@ -193,13 +230,24 @@ const MainPage = () => {
         isNotificationsPanelOpen={isNotificationsPanelOpen}
         onSearchClick={toggleSearchPanel}
         isSearchPanelOpen={isSearchPanelOpen}
-        activePage="Home"
+        onExploreClick={toggleExplorePanel}
+        isExplorePanelOpen={isExplorePanelOpen}
+        onMessagesClick={toggleMessagesPanel}
+        isMessagesPanelOpen={isMessagesPanelOpen}
+        activePage={activePage}
       />
 
       {/* 2. mainLayout: Права колонка Grid. Використовує Flex-контейнер для притискання футера */}
       <div className={styles.mainLayout}>
         {/* 3. contentArea: Займе весь простір, відштовхуючи Footer. Тут знаходиться сама стрічка */}
-        <main className={styles.contentArea}>{mockFeedContent}</main>
+        <main className={styles.contentArea}>
+          {/* Умовний рендеринг панелей */}
+          {
+            isMessagesPanelOpen ? <MessagesPanel /> :
+            isExplorePanelOpen ? <ExplorePanel /> :
+            mockFeedContent
+          }
+        </main>
         {/* Footer: Притиснутий до низу mainLayout. На мобільному він буде після контенту */}
         <Footer />
 

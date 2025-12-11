@@ -1,7 +1,7 @@
 .sidebar {
     width: 244px;
     border-right: 1px solid #dbdbdb; /* Роздільна лінія */
-    padding: 8px 12px;
+    padding: 8px 12px 20px;
     background-color: #fff;
     position: sticky; /* Робимо сайдбар "липким" */
     top: 0;
@@ -12,12 +12,12 @@
 }
 
 .logoContainer {
-    padding: 25px 0 40px 12px; /* Відступи зверху та знизу логотипу */
+  padding: 25px 0 40px 12px; /* Відступи зверху та знизу логотипу */
 }
 
 .logo {
-    width: 130px; /* Менший розмір логотипу, ніж на сторінках автентифікації */
-    height: auto;
+  width: 130px; /* Менший розмір логотипу, ніж на сторінках автентифікації */
+  height: auto;
 }
 
 /* Навігація всередині сайдбару */
@@ -29,18 +29,18 @@
 }
 
 .navItem {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    margin-bottom: 4px; /* Невеликий відступ між пунктами */
-    text-decoration: none;
-    color: #262626;
-    border-radius: 8px; /* Злегка заокруглені кути для hover-ефекту */
-    transition: background-color 0.1s;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 4px; /* Невеликий відступ між пунктами */
+  text-decoration: none;
+  color: #262626;
+  border-radius: 8px; /* Злегка заокруглені кути для hover-ефекту */
+  transition: background-color 0.1s;
 }
 
 .navItem:hover {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 /* Стилі для активного пункту меню */
@@ -54,9 +54,9 @@
 
 /* За замовчуванням іконки будуть сірими */
 .navIcon {
-    width: 24px;
-    height: 24px;
-    margin-right: 16px;
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
 }
 
 .navLabel {

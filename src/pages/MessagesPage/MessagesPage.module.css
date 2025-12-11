@@ -1,0 +1,215 @@
+/* Аналогічно до MainPage.jsx */
+.pageWrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: #FAFAFA;
+}
+
+/* Аналогічно до MainPage.jsx */
+.mainLayout {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto; /* Дозволяє скролити контент, якщо він не вміщається */
+}
+
+/* Новий контейнер для двох панелей */
+.contentArea {
+    display: flex;
+    flex-grow: 1; /* Займає весь доступний простір, відштовхуючи футер */
+    padding: 30px 20px;
+    box-sizing: border-box;
+    max-width: 975px; /* Максимальна ширина, як в Instagram */
+    width: 100%;
+    margin: 0 auto; /* Центрування */
+    height: calc(100% - 100px); /* Приблизна висота, щоб футер був видимий */
+}
+
+/* Ліва панель */
+.conversationsPanel {
+    width: 350px;
+    height: 100%;
+    border: 1px solid #DBDBDB;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.panelHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #DBDBDB;
+}
+
+.panelHeader h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.newMessageButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.newMessageButton img {
+    width: 24px;
+    height: 24px;
+}
+
+.conversationsList {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.conversationItem {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.conversationItem:hover {
+    background-color: #FAFAFA;
+}
+
+.conversationItem.active {
+    background-color: #EFEFEF;
+}
+
+.avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+}
+
+.conversationDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 14px;
+    color: #262626;
+}
+
+.lastMessage {
+    font-size: 14px;
+    color: #8E8E8E;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.unreadIndicator {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #0095F6;
+    border-radius: 50%;
+}
+
+/* Права панель */
+.chatPanel {
+    flex-grow: 1;
+    border: 1px solid #DBDBDB;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatHeader {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #DBDBDB;
+}
+
+.chatHeader .avatar {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.messagesContainer {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    padding: 8px 12px;
+    border-radius: 18px;
+    max-width: 70%;
+    font-size: 14px;
+}
+
+.myMessage {
+    background-color: #EFEFEF;
+    align-self: flex-end;
+}
+
+.theirMessage {
+    background-color: #FFFFFF;
+    border: 1px solid #EFEFEF;
+    align-self: flex-start;
+}
+
+.messageInputContainer {
+    padding: 20px;
+    border-top: 1px solid #DBDBDB;
+    display: flex;
+}
+
+.messageInput {
+    flex-grow: 1;
+    border: 1px solid #DBDBDB;
+    border-radius: 22px;
+    padding: 10px 16px;
+    font-size: 14px;
+    outline: none;
+}
+
+.sendButton {
+    background: none;
+    border: none;
+    color: #0095F6;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.noChatSelected {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #8E8E8E;
+}
+
+.noChatSelected h2 {
+    font-size: 22px;
+    font-weight: 300;
+}

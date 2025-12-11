@@ -1,0 +1,58 @@
+.explorePanel {
+    /* Займаємо всю доступну ширину, щоб уникнути стискання батьківським flex-контейнером */
+    width: 100%; 
+    /* Центрування по горизонталі та верхній відступ */
+    margin: 41px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px; /* Відстань між двома грідами */
+}
+
+.grid {
+    display: grid;
+    /* 3 колонки по 317px кожна */
+    grid-template-columns: repeat(3, 317px);
+    /* Автоматичні рядки висотою 317px */
+    grid-auto-rows: 317px;
+    /* Відступи між елементами */
+    gap: 4px;
+    /* Вирівнювання по центру, якщо ширина контейнера буде більшою */
+    justify-content: center;
+}
+
+.gridItem {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gridItem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Зображення заповнює контейнер без спотворення */
+    transition: transform 0.3s ease;
+}
+
+.gridItem:hover img {
+    transform: scale(1.05); /* Ефект легкого збільшення при наведенні */
+}
+
+/* Стиль для великих елементів */
+.largeItem {
+    /* Елемент займає 2 рядки по висоті */
+    grid-row: span 2;
+}
+
+/* Розміщення елементів у верхньому гріді */
+.item1 { grid-column: 1; grid-row: 1; }
+.item2 { grid-column: 2; grid-row: 1; }
+.item3 { grid-column: 3; grid-row: 1 / span 2; } /* Займає 3-ю колонку і 2 рядки */
+.item4 { grid-column: 1; grid-row: 2; }
+.item5 { grid-column: 2; grid-row: 2; }
+
+/* Розміщення елементів у нижньому гріді */
+.item6 { grid-column: 1; grid-row: 1 / span 2; } /* Займає 1-у колонку і 2 рядки */
+.item7 { grid-column: 2; grid-row: 1; }
+.item8 { grid-column: 3; grid-row: 1; }
+.item9 { grid-column: 2; grid-row: 2; }
+.item10 { grid-column: 3; grid-row: 2; }
