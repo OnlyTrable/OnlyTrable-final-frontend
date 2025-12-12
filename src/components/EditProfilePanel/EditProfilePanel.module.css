@@ -1,11 +1,7 @@
 .panelWrapper {
     width: 100%;
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 24px;
+    padding: 48px 167px;
     background-color: #fff;
-    border: 1px solid #dbdbdb;
-    border-radius: 8px;
 }
 
 .title {
@@ -23,13 +19,15 @@
 /* Секція аватара */
 .avatarSection {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 20px;
+    background-color: #EFEFEF;
 }
 
 .avatar {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -41,12 +39,14 @@
 }
 
 .username {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 16px;
 }
 
 .aboutPreview {
-    color: #8e8e8e;
+    color: #737373;
     font-size: 14px;
+    font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
