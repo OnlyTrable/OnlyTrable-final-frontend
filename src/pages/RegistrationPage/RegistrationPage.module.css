@@ -6,6 +6,11 @@
     background-color: #FFFFFF;
 }
 
+.formInput {
+    width: calc(100% - 80px); 
+    margin: 3px 40px; 
+}
+
 .form {
     background: #fff;
     width: 350px;

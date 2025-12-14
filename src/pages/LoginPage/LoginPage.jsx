@@ -93,12 +93,14 @@ const LoginPage = () => {
             type="text"
             error={errors.loginId?.message}
             placeholder="Username, or email"
+            className={styles.formInput}
           />
           <Input
             {...register("password")}
             type="password"
             error={errors.password?.message}
             placeholder="Password"
+            className={styles.formInput}
           />
 
           <Button 

@@ -79,22 +79,26 @@ const RegistrationPage = () => {
           type="email"
           error={errors.email?.message}
           placeholder="Email"
+          className={styles.formInput}
         />
         <Input
           {...register("fullName")}
           error={errors.fullName?.message}
           placeholder="Full Name"
+          className={styles.formInput}
         />
         <Input
           {...register("username")}
           error={errors.username?.message}
           placeholder="Username"
+          className={styles.formInput}
         />
         <Input
           {...register("password")}
           type="password"
           error={errors.password?.message}
           placeholder="Password"
+          className={styles.formInput}
         />
         
         {/* Блок strings1 */}

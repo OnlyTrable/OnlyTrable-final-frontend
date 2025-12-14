@@ -47,6 +47,7 @@ const ResetPage = () => {
               type="text"
               error={errors.identifier?.message}
               placeholder="Email or Username"
+              className={styles.formInput}
             />
 
             <Button text="Reset your password" type="submit" />

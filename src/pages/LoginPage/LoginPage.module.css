@@ -8,6 +8,11 @@
   padding-bottom: 198px;
 }
 
+.formInput {
+    width: calc(100% - 80px); /* 350px - 80px = 270px */
+    margin: 3px 40px; /* 3px зверху/знизу, 40px зліва/справа */
+}
+
 .imageContainer {
   /* Стилі для контейнера з мобільними телефонами (як на референсі) */
   width: 440px;

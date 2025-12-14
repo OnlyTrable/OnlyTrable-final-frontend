@@ -5,6 +5,11 @@
     align-items: start;
 }
 
+.formInput {
+    width: calc(100% - 80px); 
+    margin: 3px 40px; 
+}
+
 .headerLogo {
     width: 97px;
     height: auto;
