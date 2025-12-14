@@ -101,7 +101,7 @@ const EditProfilePanel = ({ user }) => {
             </span>
           </div>
 
-            <Button text="New photo" onClick={handleNewPhotoClick} />
+            <Button className={styles.choiceButton} text="New photo" onClick={handleNewPhotoClick} />
         </div>
 
         {/* Прихований input для вибору файлу */}

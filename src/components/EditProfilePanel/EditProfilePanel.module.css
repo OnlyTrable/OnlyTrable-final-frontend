@@ -1,6 +1,10 @@
+/* EditProfilePanel.module.css */
 .panelWrapper {
+    /* ВИПРАВЛЕНО: Обмежуємо ширину і зменшуємо загальний padding */
     width: 100%;
-    padding: 48px 167px;
+    max-width: 650px; /* Обмежимо ширину, як у референсі */
+    padding: 24px; /* Зменшуємо загальний padding */
+    margin: 0 auto; /* Центруємо панель */
     background-color: #fff;
 }
 
@@ -21,8 +25,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 20px;
+    gap: 16px; /* Зменшуємо gap */
     background-color: #EFEFEF;
+    border-radius: 20px;
+    padding: 12px 16px; /* Внутрішній відступ */
+    margin-bottom: 8px; /* Додатковий відступ від секції аватара до Username */
 }
 
 .avatar {
@@ -41,6 +48,7 @@
 .username {
     font-weight: 700;
     font-size: 16px;
+    color: var(--main-text-color); /* Використовуємо змінну */
 }
 
 .aboutPreview {
@@ -64,21 +72,29 @@
     font-size: 16px;
 }
 
-/* Поле вводу з іконкою */
+/* Поле вводу з іконкою (Website) */
 .inputWithIcon {
     position: relative;
+    /* Щоб інпут займав всю ширину formGroup */
+    width: 100%; 
 }
 
 .icon {
+    /* ВИПРАВЛЕНО: Позиція іконки всередині інпуту */
     position: absolute;
-    left: 12px;
+    left: 8px; 
     top: 50%;
     transform: translateY(-50%);
     color: #8e8e8e;
+    z-index: 2; 
+    width: 16px; 
+    height: 16px;
 }
 
 .inputWithIcon input {
-    padding-left: 40px;
+    /* ВИПРАВЛЕНО: Додаємо лівий padding для розміщення іконки */
+    padding-left: 35px !important; /* Перевизначаємо padding з Input.module.css */
+    color: #00376B;
 }
 
 /* Поле для "About" */
@@ -89,9 +105,10 @@
 .textarea {
     width: 100%;
     min-height: 100px;
-    padding: 10px;
+    /* Уніфікуємо padding з Input.module.css */
+    padding: 9px 8px 7px;
     border: 1px solid #dbdbdb;
-    border-radius: 4px;
+    border-radius: 12px;
     font-family: inherit;
     font-size: 14px;
     resize: vertical;
@@ -105,8 +122,26 @@
     color: #8e8e8e;
 }
 
+/* --- Кнопки (ПЕРЕВИЗНАЧЕННЯ СТИЛІВ) --- */
+
+/* Націлюємося на кнопку "New photo" всередині avatarSection */
+.avatarSection button {
+    width: 114px !important; 
+    margin: 0 0 0 auto !important; /* Вирівнюємо праворуч */
+    padding: 6px 16px !important; 
+}
+
+/* Націлюємося на кнопку "Save" всередині submitButtonWrapper */
 .submitButtonWrapper {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 16px;
+    /* Вирівнюємо кнопку "Save" по лівому краю форми */
+    justify-content: flex-start;
+    margin-top: 24px; /* Збільшуємо відступ зверху */
+    margin-bottom: 24px;
+}
+
+.submitButtonWrapper button {
+    width: 268px !important; /* Фіксована ширина */
+    margin: 0 !important; 
+    padding: 6px 16px !important;
 }
