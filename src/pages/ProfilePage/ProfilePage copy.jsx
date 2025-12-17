@@ -2,16 +2,16 @@ import React from 'react';
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import UserProfileContent from "../../components/UserProfileContent/UserProfileContent.jsx"; // Винесемо сам контент профілю
-import styles from "./OtherProfilePage.module.css";
+import styles from "./ProfilePage.module.css";
 
-const OtherProfilePage = () => {
+const ProfilePage = () => {
   return (
     <div className={styles.appContainer}>
       <Sidebar activePage="Profile" />
       
       <div className={styles.mainLayout}>
         <main className={styles.contentArea}>
-          <UserProfileContent isOwnProfile={false} userData={otherUserData} />
+          <UserProfileContent isOwnProfile={true} />
         </main>
         <Footer />
       </div>
@@ -19,4 +19,4 @@ const OtherProfilePage = () => {
   );
 };
 
-export default OtherProfilePage;
+export default ProfilePage;

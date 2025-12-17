@@ -20,7 +20,7 @@ const PostModal = ({ isOpen, onClose }) => {
         {/* ЛІВА ЧАСТИНА: Зображення (578x722) */}
         <div className={styles.imageSection}>
           <img
-            src="https://picsum.photos/578/722"// Або {postImage}
+            src="https://picsum.photos/578/722" // Або {postImage}
             alt="Post content"
             className={styles.mainPostImage}
           />
@@ -33,8 +33,14 @@ const PostModal = ({ isOpen, onClose }) => {
             <div className={styles.authorInfo}>
               <img src={sashaAvatar} alt="avatar" className={styles.avatar} />
               <span className={styles.username}>itcareerhub</span>
-              <span className={styles.dot}>•</span>
-              <button className={styles.followBtn}>Follow</button>
+
+              {/* Показуємо крапку та Follow тільки якщо це чужий профіль */}
+              {!isMyPost && (
+                <>
+                  <span className={styles.dot}>•</span>
+                  <button className={styles.followBtn}>Follow</button>
+                </>
+              )}
             </div>
           </header>
 

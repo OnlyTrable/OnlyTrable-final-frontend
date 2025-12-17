@@ -102,12 +102,6 @@
     aspect-ratio: 1/1;
     background-color: #efefef;
 }
-.ownActions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .editBtn {
   background-color: #efefef;
   color: #262626;
@@ -117,7 +111,6 @@
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .editBtn:hover {
@@ -130,5 +123,13 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  color: #262626;
+  padding: 8px;
+}
+
+/* Додамо стиль для картинок у сітці, щоб вони заповнювали контейнер */
+.postBox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
