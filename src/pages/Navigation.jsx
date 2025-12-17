@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import MainPage from "./MainPage/MainPage.jsx";
 import LoginPage from "./LoginPage/LoginPage.jsx";
 import NotFoundPage from "./NotFoundPage/NotFoundPage.jsx";
+import NotFoundPage404 from "./NotFoundPage404/NotFoundPage404.jsx";
 import Registration from "./RegistrationPage/RegistrationPage.jsx";
 import ResetPage from "./ResetPages/ResetPages.jsx";
 import ProfilePage from "./ProfilePage/ProfilePage.jsx";
@@ -20,15 +21,18 @@ import ProtectedRoute from "../components/ProtectedRoute.jsx";
 const Navigation = () => {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/registration" element={<Registration />} />
-      <Route path="/reset" element={<ResetPage />} />
-      <Route path="/cookies" element={<CookiesPage />} />
-      <Route path="/privacy" element={<PrivacyPage />} />
-      <Route path="/terms" element={<TermsPage />} />
-      {/* 1. Захищені Маршрути: ProtectedRoute використовується як Layout Route */}
+      <Route path="/">
+        <Route index element={<LoginPage />} />
+        <Route path="registration" element={<Registration />} />
+        <Route path="reset" element={<ResetPage />} />
+        <Route path="cookies" element={<CookiesPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="terms" element={<TermsPage />} />
+        {/* Сторінка "не знайдено" для неавторизованих */}
+        <Route path="*" element={<NotFoundPage404 />} />
+      </Route>
+      {/* Захищені маршрути */}
       <Route element={<ProtectedRoute />}>
-        {/* Ці маршрути будуть рендеритися всередині <Outlet> у ProtectedRoute */}
         <Route path="/main" element={<MainPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/otherProfile" element={<OtherProfilePage />} />
@@ -37,8 +41,9 @@ const Navigation = () => {
         <Route path="/editProfile" element={<EditProfilePage />} />
         <Route path="/myPosts" element={<MyPostsPage />} />
         <Route path="/posts" element={<OtherPostsPage />} />
+        {/* Сторінка "не знайдено" для авторизованих */}
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
-      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

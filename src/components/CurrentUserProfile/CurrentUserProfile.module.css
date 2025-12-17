@@ -1,0 +1,156 @@
+/* src/components/UserProfile/UserProfile.module.css */
+
+.profilePage {
+    width: 100%;
+    max-width: 935px; /* Типова максимальна ширина для контенту */
+    margin: 0 auto;
+    padding-top: 30px; /* Відступ від верхнього краю */
+}
+
+/* --- Секція заголовка та інформації --- */
+.header {
+    margin-bottom: 44px;
+}
+
+.profileContainer {
+    display: grid;
+    /* Типова розмітка: 1 колонка для аватара, 2 для контенту (291px 644px) */
+    grid-template-columns: 1fr 2fr; 
+    gap: 100px; 
+    padding: 0 0 0 30px; /* Невеликий відступ ліворуч */
+}
+
+.avatarContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar {
+    width: 150px; /* Великий аватар */
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #dbdbdb; /* Невелика рамка */
+}
+
+.infoSection {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+}
+
+/* Верхній рядок: Username та кнопки */
+.topRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.username {
+    font-size: 28px;
+    font-weight: 300;
+    margin-right: 20px;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 8px;
+}
+
+/* --- Стилізація кнопок --- */
+
+/* Скидаємо Button.module.css стилі для кнопок профілю */
+.actionButtons button {
+    margin: 0 !important;
+    width: auto !important;
+    padding: 5px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+}
+
+.followButton {
+    background-color: var(--button-bg-color) !important;
+    color: var(--button-text-color) !important;
+}
+
+.followingButton {
+    /* Стиль для кнопки "Following" (зазвичай сіра або біла з рамкою) */
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #dbdbdb !important;
+}
+
+.messageButton {
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #dbdbdb !important;
+}
+
+/* --- Статистика --- */
+.statsRow {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.statItem {
+    display: flex;
+    font-size: 16px;
+    text-align: center;
+}
+
+.statCount {
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.statLabel {
+    color: var(--main-text-color);
+}
+
+/* --- Біографія --- */
+.bioSection {
+    margin-top: 10px;
+}
+
+.fullName {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.aboutText {
+    font-size: 16px;
+    line-height: 1.2;
+    white-space: pre-wrap; /* Зберігає переноси рядків */
+    margin-bottom: 4px;
+}
+
+.websiteLink {
+    font-size: 16px;
+    color: var(--secondary-text-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* --- Галерея постів --- */
+.postsGrid {
+    /* Додамо розділювач перед сіткою */
+    border-top: 1px solid #dbdbdb;
+    padding-top: 20px;
+    
+    /* Тут буде Grid для самих постів */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.noPosts {
+    grid-column: 1 / -1; /* Центруємо напис, якщо немає постів */
+    text-align: center;
+    color: #737373;
+    font-size: 18px;
+    margin-top: 50px;
+}
