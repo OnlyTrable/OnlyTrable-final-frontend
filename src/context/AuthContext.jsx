@@ -1,19 +1,46 @@
-// src/context/AuthContext.jsx 
+// src/context/AuthContext.jsx
 
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
-import api from '../api/axios'; // ВИПРАВЛЕНО: Прибрано '.js'
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api, { setupInterceptors } from '../api/axios'; // ✨ Імпортуємо setupInterceptors
 
 const AuthContext = createContext(null);
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider = ({ children }) => {
+const AuthProviderComponent = ({ children }) => {
     // Access Token зберігається у стані (пам'яті)
     const [accessToken, setAccessToken] = useState(null);
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const isAuthenticated = !!accessToken;
-    const getAccessToken = () => accessToken;
+    const navigate = useNavigate();
+
+    // Стабільна функція для отримання токена. Визначаємо її тут, щоб уникнути TDZ.
+    const getAccessToken = useCallback(() => accessToken, [accessToken]);
+
+    // ✨ Передаємо інструменти в axios при першому рендері
+    useEffect(() => {
+        // Налаштовуємо перехоплювач відповіді один раз
+        const responseInterceptor = setupInterceptors(setAccessToken, navigate);
+
+        // Налаштовуємо перехоплювач запиту, який буде оновлюватися
+        const requestInterceptor = api.interceptors.request.use(
+            (config) => {
+                const token = getAccessToken(); // Завжди викликаємо актуальну функцію
+                if (token) {
+                    config.headers['Authorization'] = `Bearer ${token}`;
+                }
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+
+        return () => {
+            api.interceptors.request.eject(requestInterceptor);
+            api.interceptors.response.eject(responseInterceptor);
+        };
+    }, [getAccessToken, navigate]);
 
     // ====================================================================
     // 1. Первинна перевірка авторизації (через refresh токен)
@@ -68,16 +95,16 @@ export const AuthProvider = ({ children }) => {
     }, []); 
 
     // Функція логіну, що зберігає токен у пам'яті
-    const login = (token, userData) => {
+    const login = useCallback((token, userData) => {
         setAccessToken(token); 
         setUser(userData);
-    };
+    }, []);
 
     // Функція виходу
-    const logout = async () => {
+    const logout = useCallback(async () => {
         try {
             // 1. Викликаємо бекенд, щоб очистити Refresh Token у DB та HttpOnly Cookie
-            await api.post('/auth/logout'); 
+            await api.post('/auth/logout'); // ✨ Тепер заголовок додається автоматично
         } catch (error) {
             // Ігноруємо помилки, логаут має відбутися незалежно від бекенда
             console.error("Logout failed on backend, but client state will be cleared:", error);
@@ -86,7 +113,7 @@ export const AuthProvider = ({ children }) => {
             setAccessToken(null);
             setUser(null);
         }
-    };
+    }, []); // getAccessToken більше не потрібен тут, бо interceptor працює автоматично
 
     // Об'єкт, що передається в контекст, створюється за допомогою useMemo 
     // для оптимізації та стабільності
@@ -98,9 +125,9 @@ export const AuthProvider = ({ children }) => {
         logout, 
         setAccessToken, // ✅ Обов'язково для запису токена Interceptor'ом
         setUser,
-        getAccessToken, // ✅ Обов'язково для читання токена Interceptor'ом
+        getAccessToken,
         isLoading,
-    }), [accessToken, user, isAuthenticated, isLoading]);
+    }), [accessToken, user, isAuthenticated, isLoading, login, logout, getAccessToken]);
 
     return (
         <AuthContext.Provider value={contextValue}>
@@ -108,3 +135,9 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+// Експортуємо хук як іменований експорт, а провайдер — як експорт за замовчуванням.
+export default AuthProviderComponent;
+
+// Для сумісності з існуючими імпортами, можна також експортувати як іменований.
+export { AuthProviderComponent as AuthProvider };

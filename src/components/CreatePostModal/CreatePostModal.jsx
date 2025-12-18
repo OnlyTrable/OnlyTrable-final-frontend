@@ -56,10 +56,8 @@ const CreatePostModal = ({ isOpen, onClose }) => {
     }
 
     try {
-      // Явно вказуємо заголовок для надійності при відправці файлів
-      await api.post("/posts", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      // ✨ Тепер заголовок Authorization додається автоматично перехоплювачем
+      await api.post("/posts", formData);
       handleClose();
       window.location.reload(); // Тимчасове рішення для оновлення стрічки
     } catch (error) {
