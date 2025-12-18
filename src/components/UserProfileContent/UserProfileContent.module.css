@@ -43,6 +43,11 @@
     font-weight: 400;
 }
 
+.actionsOther {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
 .followBtn {
     background-color: #0095F6;
     font-size: 14px;

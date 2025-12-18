@@ -4,11 +4,15 @@ import Input from '../Input/Input.jsx';
 import axios from '../../api/axios.js';
 
 /**
- * Оновлений компонент результату пошуку з підтримкою SPA-кліку.
+ * Компонент результату пошуку, що підтримує SPA-перехід.
  */
-const SearchPanelItem = ({ avatarSrc, username, onClick }) => {
+const SearchPanelItem = ({ id, avatarSrc, username, onClick }) => {
     return (
-        <div className="search-item-link" onClick={() => onClick(username)} style={{ cursor: 'pointer' }}>
+        <div 
+            className="search-item-link" 
+            onClick={() => onClick(id)} 
+            style={{ cursor: 'pointer' }}
+        >
             <div className="search-item">
                 <img className="user-avatar" src={avatarSrc} alt={`${username}'s avatar`} />
                 <p className="username">{username}</p>
@@ -41,7 +45,7 @@ const SearchPanel = ({ onUserClick }) => {
             setLoading(true);
             setError(null);
             try {
-                // Використовуємо виправлений шлях /user/search
+                // Запит до виправленого маршруту /user/search
                 const { data } = await axios.get(`/user/search?q=${searchTerm}`);
                 setFilteredItems(data);
             } catch (err) {
@@ -73,6 +77,7 @@ const SearchPanel = ({ onUserClick }) => {
                 {!loading && !error && filteredItems.map((item) => (
                     <SearchPanelItem 
                         key={item._id}
+                        id={item._id}
                         avatarSrc={item.avatarUrl}
                         username={item.username}
                         onClick={onUserClick}
