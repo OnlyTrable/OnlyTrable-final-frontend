@@ -1,90 +1,83 @@
 import React, { useState, useEffect } from 'react';
-import './SearchPanel.css'; // Імпорт стилів
-import Input from '../Input/Input.jsx'; // Імпорт вашого кастомного компонента
+import './SearchPanel.css';
+import Input from '../Input/Input.jsx';
+import axios from '../../api/axios.js';
 
 /**
- * Окремий компонент для відображення одного результату пошуку.
+ * Оновлений компонент результату пошуку з підтримкою SPA-кліку.
  */
-const SearchPanelItem = ({ avatarSrc, username, profileUrl }) => {
+const SearchPanelItem = ({ avatarSrc, username, onClick }) => {
     return (
-        <a href={profileUrl} className="search-item-link">
+        <div className="search-item-link" onClick={() => onClick(username)} style={{ cursor: 'pointer' }}>
             <div className="search-item">
-                {/* Аватар користувача */}
                 <img className="user-avatar" src={avatarSrc} alt={`${username}'s avatar`} />
-                {/* Ім'я користувача */}
                 <p className="username">{username}</p>
             </div>
-        </a>
+        </div>
     );
 };
 
-/**
- * Основний компонент "Панель пошуку".
- * @param {Object} props
- * @param {Array<Object>} props.items - Масив об'єктів для пошуку.
- */
-const SearchPanel = ({ items = [] }) => {
+const SearchPanel = ({ onUserClick }) => { 
     const [inputValue, setInputValue] = useState('');
-    const [searchTerm, setSearchTerm] = useState(''); // Дебаунс-значення для фільтрації
+    const [searchTerm, setSearchTerm] = useState('');
     const [filteredItems, setFilteredItems] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    // Ефект для затримки пошуку (debounce)
     useEffect(() => {
         const timerId = setTimeout(() => {
             setSearchTerm(inputValue);
-        }, 300); // Затримка 300 мс
-
-        return () => {
-            clearTimeout(timerId);
-        };
+        }, 500);
+        return () => clearTimeout(timerId);
     }, [inputValue]);
 
-    // Фільтруємо елементи, коли змінюється дебаунс-значення
     useEffect(() => {
-        if (searchTerm) {
-            const results = items.filter(item =>
-                item.username.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-            setFilteredItems(results);
-        } else {
-            setFilteredItems([]); // Очищуємо результати, якщо поле пошуку порожнє
+        if (!searchTerm.trim()) {
+            setFilteredItems([]);
+            return;
         }
-    }, [searchTerm, items]);
 
-    // Обробник зміни значення в полі пошуку
-    const handleSearchChange = (event) => {
-        setInputValue(event.target.value);
-    };
+        const fetchUsers = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                // Використовуємо виправлений шлях /user/search
+                const { data } = await axios.get(`/user/search?q=${searchTerm}`);
+                setFilteredItems(data);
+            } catch (err) {
+                setError('Failed to fetch users.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, [searchTerm]);
 
     return (
         <div className="search-panel">
             <h2 className="search-panel-title">Search</h2>
-
             <div className="search-input-wrapper">
                 <Input
                     type="text"
                     placeholder="Search..."
                     value={inputValue}
-                    onChange={handleSearchChange} // Передаємо обробник
+                    onChange={(e) => setInputValue(e.target.value)}
                 />
             </div>
 
             <div className="search-results">
-                {/* Показуємо результати тільки якщо є введений текст */}
-                {inputValue && filteredItems.length > 0 && (
-                    filteredItems.map((item) => (
-                        <SearchPanelItem 
-                            key={item.id} // Використовуємо унікальний ID
-                            avatarSrc={item.avatarSrc}
-                            username={item.username}
-                            profileUrl={`/profile/${item.username}`} // Генеруємо URL профілю
-                        />
-                    ))
-                )}
-                {/* Показуємо повідомлення, якщо нічого не знайдено */}
-                {inputValue && filteredItems.length === 0 && (
-                    <p className="no-results">No results found.</p>
-                )}
+                {loading && <p className="search-info">Loading...</p>}
+                {error && <p className="search-info error">{error}</p>}
+                
+                {!loading && !error && filteredItems.map((item) => (
+                    <SearchPanelItem 
+                        key={item._id}
+                        avatarSrc={item.avatarUrl}
+                        username={item.username}
+                        onClick={onUserClick}
+                    />
+                ))}
             </div>
         </div>
     );
