@@ -11,6 +11,7 @@ import OtherProfilePage from "./OtherProfilePage/OtherProfilePage.jsx";
 import InterestPage from "./InterestPage/InterestPage.jsx";
 import MessagesPage from "./MessagesPage/MessagesPage.jsx";
 import EditProfilePage from "./EditProfilePage/EditProfilePage.jsx";
+import CreatePostPage from "./CreatePostPage/CreatePostPage.jsx";
 import MyPostsPage from "./MyPostsPage/MyPostsPage.jsx";
 import OtherPostsPage from "./OtherPostsPage/OtherPostsPage.jsx";
 import PrivacyPage from "./PrivacyPage/PrivacyPage.jsx";
@@ -35,10 +36,11 @@ const Navigation = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/main" element={<MainPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/otherProfile" element={<OtherProfilePage />} />
+        <Route path="/otherProfile/:userId" element={<OtherProfilePage />} />
         <Route path="/interest" element={<InterestPage />} />
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/editProfile" element={<EditProfilePage />} />
+        <Route path="/create" element={<CreatePostPage />} />
         <Route path="/myPosts" element={<MyPostsPage />} />
         <Route path="/posts" element={<OtherPostsPage />} />
         {/* Сторінка "не знайдено" для авторизованих */}

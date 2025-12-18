@@ -1,43 +1,42 @@
 import React from "react";
 import styles from "./Sidebar.module.css";
 import logo from "../../assets/icons/logo.svg";
-import { useAuth } from "../../context/AuthContext.jsx"; // 👈 Імпортуємо хук
+import { useAuth } from "../../context/AuthContext.jsx";
+import { useSidebarNavigation } from "../../hooks/useSidebarNavigation.js";
 import {
   Home,
-  Search,
-  Compass,
-  MessageCircle,
-  Heart,
-  SquarePlus,
   UserCircle,
   LogOut,
 } from "lucide-react";
 
-// Дані для пунктів меню
-const navItems = [
-  { Icon: Home, label: "Home", path: "/main" },
-  { Icon: Search, label: "Search", path: "/search" },
-  { Icon: Compass, label: "Explore", path: "/interest" },
-  { Icon: MessageCircle, label: "Messages", path: "/messages" },
-  { Icon: Heart, label: "Notification", path: "/notifications" },
-  { Icon: SquarePlus, label: "Create", path: "/create" },
-];
-
 const Sidebar = ({
+  onHomeClick,         // Функція для скидання станів у MainPage
   onNotificationClick,
   isNotificationsPanelOpen,
   onSearchClick,
   isSearchPanelOpen,
   onExploreClick,
   isExplorePanelOpen,
-  onMessagesClick,
+  onMessagesClick = () => {},
   isMessagesPanelOpen,
-  onProfileClick,
-  isProfilePanelOpen,
+  onCreateClick,      // Тепер це відкриває панель у MainPage
+  isCreatePanelOpen,  
+  onProfileClick,     // Відкриває панель профілю у MainPage
+  isProfilePanelOpen, 
   activePage,
 }) => {
-  // 👈 Отримуємо функцію logout з контексту
   const { logout } = useAuth();
+
+  // Отримуємо список елементів через твій хук
+  const { navItems } = useSidebarNavigation({
+    activePage,
+    isNotificationsPanelOpen, onNotificationClick,
+    isSearchPanelOpen, onSearchClick,
+    isExplorePanelOpen, onExploreClick,
+    isMessagesPanelOpen, onMessagesClick,
+    isCreateModalOpen: isCreatePanelOpen, 
+    onToggleCreateModal: onCreateClick,   
+  });
 
   return (
     <div className={styles.sidebar}>
@@ -46,98 +45,71 @@ const Sidebar = ({
       </div>
 
       <nav className={styles.nav}>
-        {navItems.map((item) => {
-          const { Icon, label, path } = item;
-
-          const isNotificationItemActive =
-            item.label === "Notification" && isNotificationsPanelOpen;
-          const isSearchItemActive =
-            item.label === "Search" && isSearchPanelOpen;
-          const isExploreItemActive =
-            item.label === "Explore" && isExplorePanelOpen;
-          const isMessagesItemActive =
-            item.label === "Messages" && isMessagesPanelOpen;
-          const isPageItemActive =
-            item.label === activePage &&
-            !isNotificationsPanelOpen &&
-            !isSearchPanelOpen &&
-            !isExploreItemActive &&
-            !isMessagesItemActive &&
-            !isProfilePanelOpen;
-
-          const isActive =
-            isNotificationItemActive ||
-            isSearchItemActive ||
-            isExploreItemActive ||
-            isMessagesItemActive ||
-            isPageItemActive;
-
-          const itemClasses = `${styles.navItem} ${
-            isActive ? styles.activeNavItem : ""
-          }`;
-
-          return (
-            <a
-              key={label}
-              href={path}
-              className={itemClasses}
-              // Додаємо обробники кліку для "Notification" та "Search"
-              onClick={(e) => {
-                if (item.label === "Notification") {
-                  e.preventDefault();
-                  onNotificationClick();
-                }
-                if (item.label === "Search") {
-                  e.preventDefault();
-                  onSearchClick();
-                }
-                if (item.label === "Explore") {
-                  e.preventDefault();
-                  onExploreClick();
-                }
-                if (item.label === "Messages") {
-                  e.preventDefault();
-                  onMessagesClick();
-                }
-              }}
-            >
-              {/* 👇 Керуємо заливкою та кольором контуру залежно від стану isActive */}
-              <Icon
-                className={styles.navIcon}
-                fill={isActive ? "black" : "none"}
-              />
-              <span className={styles.navLabel}>{label}</span>
-            </a>
-          );
-        })}
-
-        <a
-          href="/profile"
+        {/* 1. HOME: Спеціальна логіка повернення до стрічки */}
+        <div
           className={`${styles.navItem} ${
-            activePage === "Profile" ? styles.activeNavItem : ""
+            activePage === "Home" && !isSearchPanelOpen && !isNotificationsPanelOpen 
+            ? styles.activeNavItem : ""
           }`}
+          onClick={() => {
+            if (window.location.pathname === "/main") {
+              onHomeClick(); // Скидаємо всі панелі в MainPage
+            } else {
+              window.location.href = "/main"; // Перехід, якщо ми на іншій сторінці
+            }
+          }}
+        >
+          <Home 
+            className={styles.navIcon} 
+            fill={activePage === "Home" ? "black" : "none"} 
+          />
+          <span className={styles.navLabel}>Home</span>
+        </div>
+
+        {/* 2. ІНШІ ПУНКТИ: Search, Explore, Messages, Notifications, Create */}
+        {navItems
+          .filter(item => item.label !== "Home") // Уникаємо дублювання Home
+          .map((item) => {
+            const { Icon, label, isActive, onClick } = item;
+            return (
+              <div
+                key={label}
+                className={`${styles.navItem} ${isActive ? styles.activeNavItem : ""}`}
+                onClick={onClick}
+              >
+                <Icon
+                  className={styles.navIcon}
+                  fill={isActive ? "black" : "none"}
+                />
+                <span className={styles.navLabel}>{label}</span>
+              </div>
+            );
+          })}
+
+        {/* 3. PROFILE: Окрема SPA-логіка без перезавантаження */}
+        <div
+          className={`${styles.navItem} ${
+            isProfilePanelOpen || activePage === "Profile" ? styles.activeNavItem : ""
+          }`}
+          onClick={onProfileClick}
         >
           <UserCircle
             className={styles.navIcon}
-            fill={activePage === "Profile" ? "black" : "none"}
+            fill={(isProfilePanelOpen || activePage === "Profile") ? "black" : "none"}
           />
           <span className={styles.navLabel}>Profile</span>
-        </a>
+        </div>
       </nav>
 
       <div className={styles.footerNav}>
-        {/* 👇 Оновлюємо обробник кліку */}
-        <a
-          href="#"
-          className={styles.navItem}
-          onClick={(e) => {
-            e.preventDefault();
-            logout();
-          }}
+        {/* 4. LOGOUT: Чистий виклик функції з контексту */}
+        <div 
+          className={styles.navItem} 
+          onClick={logout} 
         >
           <LogOut className={styles.navIcon} />
           <span className={styles.navLabel}>Log out</span>
-        </a>
+        </div>
       </div>
     </div>
   );

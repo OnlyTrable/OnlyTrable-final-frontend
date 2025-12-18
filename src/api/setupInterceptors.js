@@ -19,8 +19,11 @@ export const setupInterceptors = (getAccessToken, setAccessToken, navigate) => {
   // ✅ 1. ЄДИНИЙ перехоплювач запиту (читає з пам'яті)
   api.interceptors.request.use(
     (config) => {
+      const publicUrls = ['/auth/login', '/auth/register', '/auth/refresh'];
       const token = getAccessToken(); // Читаємо з функції AuthContext
-      if (token) {
+
+      // Додаємо заголовок, якщо є токен і URL не є публічним
+      if (token && !publicUrls.includes(config.url)) {
         config.headers.Authorization = `Bearer ${token}`;
       }
       return config;
@@ -34,16 +37,13 @@ export const setupInterceptors = (getAccessToken, setAccessToken, navigate) => {
     async (error) => {
       const originalRequest = error.config;
       
-      // ====================================================================
-      // ✅ ФІКС: Якщо це первинний запит refresh, дозволяємо помилці пройти
-      // Це запобігає спробі Interceptor'а оновити токен, 
-      // який сам і є запитом на оновлення.
-      if (originalRequest._doNotRetry) {
-          return Promise.reject(error);
+      // Якщо помилка сталася на запиті оновлення токена, або це не 401,
+      // або запит вже повторювався - не обробляємо його тут.
+      if (originalRequest.url === '/auth/refresh' || error.response?.status !== 401 || originalRequest._retry) {
+        return Promise.reject(error);
       }
-      // ====================================================================
-
-      if (error.response?.status === 401 && !originalRequest._retry) {
+      
+      if (!originalRequest._retry) {
         originalRequest._retry = true;
 
         if (!isRefreshing) {
@@ -53,7 +53,8 @@ export const setupInterceptors = (getAccessToken, setAccessToken, navigate) => {
             const rs = await api.post(
               "/auth/refresh",
               {},
-              { withCredentials: true }
+              // Ми не додаємо withCredentials тут, оскільки воно вже є
+              // в глобальній конфігурації axios інстансу 'api'
             );
             const { token: newAccessToken } = rs.data;
 
@@ -70,9 +71,11 @@ export const setupInterceptors = (getAccessToken, setAccessToken, navigate) => {
         }
 
         return new Promise((resolve, reject) => {
+          // Додаємо в чергу функцію, яка виконає повторний запит
           failedQueue.push({ resolve, reject });
         }).then((token) => {
-          originalRequest.headers.Authorization = `Bearer ${token}`;
+          // Коли черга оброблена, ми отримуємо НОВИЙ токен
+          originalRequest.headers.Authorization = `Bearer ${token}`; // Встановлюємо новий токен
           return api(originalRequest);
         });
       }
