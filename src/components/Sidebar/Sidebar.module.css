@@ -30,6 +30,7 @@
 
 .navItem {
   display: flex;
+  flex-direction: row;
   align-items: center;
   padding: 12px;
   margin-bottom: 4px; /* Невеликий відступ між пунктами */
