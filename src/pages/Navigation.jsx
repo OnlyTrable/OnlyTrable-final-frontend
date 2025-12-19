@@ -28,18 +28,10 @@ const Navigation = () => {
 
       {/* Захищені маршрути */}
       <Route element={<ProtectedRoute />}>
-        {/* Тепер ВСЯ логіка (Стрічка, Пошук, Профіль, Повідомлення) 
-          живе всередині одного маршруту /main 
-        */}
         <Route path="/main" element={<MainPage />} />
-
-        {/* Ці сторінки можна залишити, якщо вони ще не перенесені в SPA-панелі MainPage */}
         <Route path="/interest" element={<InterestPage />} />
-
-        {/* ВАЖЛИВО: Маршрути /profile, /editProfile, /messages БІЛЬШЕ НЕ ПОТРІБНІ,
-           оскільки вони стали компонентами-панелями всередині MainPage.jsx
-        */}
-
+        <Route path="/direct/inbox" element={<MainPage />} />
+        <Route path="/direct/t/:conversationId" element={<MainPage />} />{" "}
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
