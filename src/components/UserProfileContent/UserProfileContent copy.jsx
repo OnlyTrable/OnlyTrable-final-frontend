@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // 🔥 Додано useNavigate сюди
+import { useNavigate } from "react-router-dom";
 import styles from "./UserProfileContent.module.css";
 import PostModal from "../PostModal/PostModal";
+import { Link } from "react-router-dom";
 import api from "../../api/axios.js";
 
 const UserProfileContent = ({ isOwnProfile, userData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  // Стан для підписки
+  // Стан для динамічного оновлення кнопки та лічильника без перезавантаження сторінки
   const [isFollowing, setIsFollowing] = useState(userData.isFollowing || false);
   const [followersCount, setFollowersCount] = useState(userData.followersCount || 0);
   const [loading, setLoading] = useState(false);
-
-  // 🔥 ДОДАНО: Стан для завантаження повідомлення та хук навігації
-  const [loadingMessage, setLoadingMessage] = useState(false);
-  const navigate = useNavigate();
 
   if (!userData) return null;
 
@@ -24,7 +21,10 @@ const UserProfileContent = ({ isOwnProfile, userData }) => {
     
     setLoading(true);
     try {
+      // Викликаємо створений нами маршрут
       const { data } = await api.post(`/user/profile/${userData.id}/follow`);
+      
+      // Оновлюємо стани з відповіді бекенда
       setIsFollowing(data.isFollowing);
       setFollowersCount(data.followersCount);
     } catch (error) {
@@ -35,7 +35,7 @@ const UserProfileContent = ({ isOwnProfile, userData }) => {
     }
   };
 
-  // Функція для переходу в чат
+// Функція для переходу в чат
   const handleMessageClick = async () => {
     setLoadingMessage(true);
     try {
@@ -43,16 +43,18 @@ const UserProfileContent = ({ isOwnProfile, userData }) => {
        * На бекенді sendMessage знайде існуючу розмову або створить нову.
        */
       const response = await api.post("/messages", {
-        recipientId: userData.id || userData._id,
-        content: "👋" 
+        recipientId: userData.id || userData._id, // Використовуємо ID з профілю
+        content: "👋" // Початкове повідомлення для ініціалізації розмови
       });
 
       const { conversationId } = response.data;
 
-      // Перенаправляємо на сторінку чату
+      // Перенаправляємо користувача на сторінку повідомлень з ID розмови
       navigate(`/direct/t/${conversationId}`);
     } catch (error) {
       console.error("Error starting conversation:", error);
+      // Якщо розмова вже була і ми просто хочемо її знайти, 
+      // можна додати логіку отримання списку розмов
       navigate("/direct/inbox");
     } finally {
       setLoadingMessage(false);
@@ -82,6 +84,7 @@ const UserProfileContent = ({ isOwnProfile, userData }) => {
               </div>
             ) : (
               <div className={styles.actions}>
+                {/* Додано row-контейнер, як ти налаштував у стилях */}
                 <div className={styles.actionsOther} style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
                   <button 
                     onClick={handleFollowToggle}
@@ -93,7 +96,7 @@ const UserProfileContent = ({ isOwnProfile, userData }) => {
                   <button 
                     className={styles.messageBtn} 
                     onClick={handleMessageClick}
-                    disabled={loadingMessage} // Тепер змінна визначена
+                    disabled={loadingMessage}
                   >
                     {loadingMessage ? "Connecting..." : "Message"}
                   </button>
@@ -107,6 +110,7 @@ const UserProfileContent = ({ isOwnProfile, userData }) => {
               <strong>{userData.postsCount || 0}</strong> posts
             </span>
             <span>
+              {/* Використовуємо локальний стан лічильника, щоб він змінювався миттєво */}
               <strong>{followersCount.toLocaleString()}</strong> followers
             </span>
             <span>
@@ -136,6 +140,7 @@ const UserProfileContent = ({ isOwnProfile, userData }) => {
       </header>
 
       <div className={styles.postsGrid}>
+        {/* Тут можна буде мапити реальні пости, коли додамо логіку їх отримання */}
         {[1, 2, 3, 4, 5, 6].map((id) => (
           <div
             key={id}

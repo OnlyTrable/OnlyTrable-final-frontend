@@ -37,15 +37,19 @@ const ProfilePanel = ({ targetUserId }) => {
 
   // Форматуємо дані для компонента перегляду
   const viewData = {
+    id: profileData._id,
     username: profileData.username,
     avatar: profileData.avatarUrl || profileData.avatar,
     fullName: profileData.fullName,
+    isFollowing: profileData.isFollowing, // Передаємо початковий стан підписки
+    followersCount: profileData.followersCount, // Передаємо початкову кількість
+    followingCount: profileData.followingCount,
+    postsCount: profileData.postsCount,
     bio: {
       about: profileData.about || "",
       website: profileData.website || ""
     }
   };
-
   return (
     <div className={styles.panelContainer}>
       {isOwner ? (
